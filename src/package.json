@@ -1,0 +1,21 @@
+{
+  "name": "cloudnode-app",
+  "version": "0.0.1",
+  "description": "Soundcloud desktop app",
+  "author": "Alex Nagelkerke",
+  "license": "Apache-2.0",
+  "main": "index.html",
+  "window": {
+    "show": false,
+    "toolbar": false,
+    "width": 1100,
+    "height": 700,
+    "min_width": 1100,
+    "min_height": 700
+  },
+  "dependencies": {
+    "bluebird": "^2.9.30",
+    "nedb": "^1.1.2",
+    "request": "^2.58.0"
+  }
+}

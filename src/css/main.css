@@ -1,0 +1,184 @@
+/**
+ * Body
+ */
+
+body {
+  background: #303030;
+}
+
+/*********************
+ *  Typography
+ ********************/
+h1,h2,h3,h4,h5,h6,p,span,a{
+  color: rgba(255,255,255,0.87);
+}
+
+/******************
+ * App bar
+ *****************/
+.app-bar {
+  background: rgba(0,0,0,0.40);
+  height: 30px;
+  width: 100%;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+  display: none;
+}
+
+.md-button.app-bar-button {
+  min-width: 0;
+  -webkit-user-select: none;
+  -webkit-app-region: no-drag;
+}
+
+.app-bar-title {
+  font-weight: 400;
+  font-size: 14px;
+  margin: 0;
+  -webkit-user-select: none;
+  cursor: default;
+}
+
+/******************
+ * SideNav
+ *****************/
+.sidebar-wrapper {
+  width: 255px;
+}
+
+md-sidenav.md-locked-open.md-sidenav-main, md-sidenav.md-locked-open.md-closed.md-sidenav-main {
+  position: absolute;
+}
+
+md-sidenav.md-sidenav-main {
+  background: #212121;
+  width: 255px;
+  min-width: 255px;
+  max-width: 255px;
+}
+
+.app-header {
+  background: #212121;
+  border-bottom: 1px solid #303030;
+  padding: 15px 0 20px 0;
+}
+
+.app-title {
+  text-align: center;
+  font-weight: 400;
+  font-size: 26px;
+  margin:0;
+}
+.orange {
+  color: #EF6C00 ;
+}
+
+/******************
+ * Profile
+ *****************/
+
+.user-me{
+  padding: 15px 20px;
+  position: relative;
+  cursor: pointer;
+  border-bottom: 1px solid #303030;
+}
+
+.user-me > span {
+  margin-left: 10px;
+}
+
+/******************
+ * Menu
+ *****************/
+ md-content.menu-content {
+  background: #212121;
+ }
+
+.menu-title {
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 16px;
+  font-style: inherit;
+  font-variant: inherit;
+  font-family: inherit;
+  padding: 0px 24px;
+  margin-bottom: 5px;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  margin-top: 0;
+}
+
+.menu li {
+  list-style-position: inside;
+}
+
+.md-button.menu-button {
+  display: block;
+  padding: 0 16px 0 40px;
+  text-transform: none;
+  text-rendering: geometricPrecision;
+  font-weight: 500;
+  border-radius: 0;
+  color: white;
+  cursor: pointer;
+  display: block;
+  line-height: 40px;
+  margin: 0;
+  max-height: 40px;
+  overflow: hidden;
+  text-align: left;
+  text-decoration: none;
+  white-space: normal;
+  width: 100%;
+}
+
+ng-md-icon {
+  vertical-align: middle;
+  display: inline-block;
+  line-height: 1;
+}
+
+/******************
+ * Player
+ *****************/
+
+player {
+  height: 70px;
+  background: #212121;
+}
+
+.player-song-info {
+  padding-left: 10px;
+  max-width: 170px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-song-info .track-artist{
+  color: rgba(255,255,255,0.6);
+}
+
+.player-slider {
+  padding-left: 10px;
+}
+.player-slider md-slider {
+  padding: 0 15px;
+}
+
+.player-controls {
+  padding: 0 10px;
+}
+.player-controls .md-button {
+  margin: 0;
+  min-width: 0;
+}
+
+.volume-slider {
+  width: 100px;
+  padding-left: 10px;
+}

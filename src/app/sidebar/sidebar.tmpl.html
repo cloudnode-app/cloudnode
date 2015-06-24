@@ -1,0 +1,84 @@
+<md-sidenav class="md-whiteframe-z2 md-sidenav-main" flex md-component-id="main" md-is-locked-open="$mdMedia('gt-sm')"
+      tabindex="-1" data-ng-init="initSidebar()">
+     <div class="app-bar" layout="row" layout-align="start center">
+       <md-button class="app-bar-button">
+         <ng-md-icon icon="clear" style="fill:#EF6C00" size="18"></ng-md-icon>
+       </md-button>
+       <md-button class="app-bar-button">
+         <ng-md-icon icon="remove" style="fill:#EF6C00" size="18"></ng-md-icon>
+       </md-button>
+       <md-button class="app-bar-button">
+         <ng-md-icon icon="add" style="fill:#EF6C00" size="18"></ng-md-icon>
+       </md-button>
+     </div>
+  <header class="app-header">
+    <h2 class="app-title">Cloud<span class="orange">Node</span></h2>
+  </header>
+
+  <div class="user-me" md-ink-ripple="#FFE0B2" layout="row" layout-align="start center">
+    <img src="{{meUser.avatar_url}}" alt="profile" width="50" height="50"/>
+    <span class="md-subhead">{{meUser.full_name}}</span>
+  </div>
+
+  <md-content flex role="navigation" class="menu-content">
+    <div class="main-menu">
+      <h2 class="menu-title">main</h2>
+      <ul class="menu">
+        <li>
+          <md-button class="menu-button" layout-align="start center">
+            <ng-md-icon class="menu-icon" icon="view_headline" size="24" style="fill:#EF6C00"></ng-md-icon>
+            Stream
+          </md-button>
+        </li>
+        <li>
+          <md-button class="menu-button" layout-align="start center">
+            <ng-md-icon class="menu-icon" icon="queue_music" size="24" style="fill:#EF6C00"></ng-md-icon>
+            Queue
+          </md-button>
+        </li>
+        <li>
+          <md-button class="menu-button" layout-align="start center">
+            <ng-md-icon class="menu-icon" icon="favorite" size="24" style="fill:#EF6C00"></ng-md-icon>
+            Likes
+          </md-button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="explore">
+      <h2 class="menu-title">explore</h2>
+      <ul class="menu">
+        <li>
+          <md-button class="menu-button" layout-align="start center">
+            <ng-md-icon class="menu-icon" icon="my_library_music" size="24" style="fill:#EF6C00"></ng-md-icon>
+            Trending Music
+          </md-button>
+        </li>
+        <li>
+          <md-button class="menu-button" layout-align="start center">
+            <ng-md-icon class="menu-icon" icon="mic" size="24" style="fill:#EF6C00"></ng-md-icon>
+            Trending Audio
+          </md-button>
+        </li>
+        <li>
+          <md-button class="menu-button" layout-align="start center">
+            <ng-md-icon class="menu-icon" icon="view_module" size="24" style="fill:#EF6C00"></ng-md-icon>
+            All Categories
+          </md-button>
+        </li>
+      </ul>
+    </div>
+
+     <div class="playlists">
+      <h2 class="menu-title">playlists</h2>
+      <ul class="menu">
+        <li ng-repeat="(key, playlist) in playlists">
+          <md-button class="menu-button" layout-align="start center" ui-sref="playlist({id: playlist.id, secret: playlist.secret_token})">
+            <ng-md-icon class="menu-icon" icon="audiotrack" size="24" style="fill:#EF6C00"></ng-md-icon>
+            {{playlist.title}}
+          </md-button>
+        </li>
+      </ul>
+    </div>
+  </md-content>
+</md-sidenav>

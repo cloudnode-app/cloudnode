@@ -1,0 +1,38 @@
+<sound-manager></sound-manager>
+<div class="player-song-info" layout="column" layout-align="center start">
+  <span class="track-title">
+    {{currentPlaying.title}}
+  </span>
+  <span class="track-artist">
+    {{currentPlaying.artis}}
+  </span>
+</div>
+
+<div class="player-slider" layout="row" flex layout-align="space-between center">
+  <span class="current-duration">
+    {{currentPostion}}
+  </span>
+   <md-slider flex min="0" max="255" ng-model="currentProgress" aria-label="orange" aria-controls="orange-slider" class="md-primary" ></md-slider>
+  <span class="total-duration">
+    {{currentDuration}}
+  </span>
+</div>
+
+<div class="player-controls" layout="row" layout-align="start center">
+  <md-button>
+    <ng-md-icon size="26" style="fill:#EF6C00" icon="repeat"></ng-md-icon>
+  </md-button>
+  <md-button>
+    <ng-md-icon size="36" style="fill:#EF6C00" icon="skip_previous"></ng-md-icon>
+  </md-button>
+  <md-button ng-click="togglePlaying()">
+    <ng-md-icon size="40" style="fill:#EF6C00" icon="{{playerIcon}}" options='{"duration": 375, "rotation": "none"}'></ng-md-icon>
+  </md-button>
+  <md-button>
+    <ng-md-icon size="36" style="fill:#EF6C00" icon="skip_next"></ng-md-icon>
+  </md-button>
+  <md-button>
+    <ng-md-icon size="28" style="fill:#EF6C00" icon="{{volumeIcon}}" options='{"duration": 375, "rotation": "none"}' ng-click="toggleMuted()"></ng-md-icon>
+  </md-button>
+  <md-slider min="0" max="100" aria-label="orange" aria-controls="orange-slider" ng-model="volume" class="md-primary volume-slider"></md-slider>
+</div>

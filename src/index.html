@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="theme-color" content="#3F51B5">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Soundcloud desktop app">
+    <meta name="author" content="Alex Nagelkerke">
+
+    <title>CloudNode</title>
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic" />
+    <% styles.forEach( function ( file ) { %>
+        <link rel="stylesheet" type="text/css" href="<%= file %>" /> <%
+    }); %>
+  </head>
+
+  <body layout="row" data-ng-controller="AppCtrl" data-ng-init="initCloudNode()">
+    <div ng-show="!appLoaded" layout="column" layout-align="center center" flex>
+      <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+      <h2 class="md-display-1">Loading your account</h2>
+    </div>
+
+    <!-- Sidebar include -->
+    <ng-include src="'sidebar/sidebar.tmpl.html'" data-ng-controller="SidebarCtrl" ng-show="appLoaded" class="sidebar-wrapper"></ng-include>
+
+    <!-- App bar -->
+    <div class="app-bar" layout="row" layout-align="center center">
+      <h1 class="app-bar-title">CloudNode</h1>
+    </div>
+
+    <!-- Main views -->
+    <div class="view-container" layout="column" flex ng-show="appLoaded">
+      <div class="view-container" data-ui-view flex>
+
+      </div>
+      <player layout="row"></player>
+    </div>
+
+
+
+    <!-- jquery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+    <!-- Grunt will handle this part -->
+    <% scripts.forEach( function ( file ) { %>
+    <script type="text/javascript" src="<%= file %>"></script>
+    <% }); %>
+
+    <script type="text/javascript">
+      'use strict';
+      var app = require('./webkit/app');
+      app.init();
+    </script>
+  </body>
+</html>
