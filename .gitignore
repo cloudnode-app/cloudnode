@@ -30,7 +30,7 @@ lib
 # Build folders
 build/
 dist/
-CloudNode/
+cloudnode-app/
 
 # NW.js cache folder
 cache/
