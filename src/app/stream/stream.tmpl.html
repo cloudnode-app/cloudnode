@@ -1,0 +1,15 @@
+<md-content flex class="stream-content" layout="row" layout-align="space-around start" layout-wrap
+  data-ng-init="initStream()"
+  infinite-scroll="loadNextPage()"
+  infinite-scroll-immediate-check="false"
+  infinite-scroll-container="'.stream-content'">
+
+  <track-card class="track-card" ng-repeat="(key, streamobj) in stream"
+    track="streamobj.track"
+    uuid="streamobj.uuid"
+    user="streamobj.user"
+    type="streamobj.type"
+    context="context">
+  </track-card>
+
+</md-content>

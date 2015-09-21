@@ -17,6 +17,7 @@ angular.module('cloudnode.api.endpoints', [])
   meFollowing       : 'https://api.soundcloud.com/me/followings.json',
   meFollowers       : 'https://api.soundcloud.com/me/followers.json',
   meFavorites       : 'https://api.soundcloud.com/me/favorites.json',
+  meFavoriteTrack   : 'https://api.soundcloud.com/me/favorites/%s',
   meGroups          : 'https://api.soundcloud.com/me/groups.json',
   mePlaylists       : 'https://api.soundcloud.com/me/playlists.json',
   meConnections     : 'https://api.soundcloud.com/me/connections.json',

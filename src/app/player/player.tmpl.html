@@ -4,7 +4,7 @@
     {{currentPlaying.title}}
   </span>
   <span class="track-artist">
-    {{currentPlaying.artis}}
+    {{currentPlaying.artist}}
   </span>
 </div>
 
@@ -12,26 +12,26 @@
   <span class="current-duration">
     {{currentPostion}}
   </span>
-   <md-slider flex min="0" max="255" ng-model="currentProgress" aria-label="orange" aria-controls="orange-slider" class="md-primary" ></md-slider>
+   <md-slider flex min="0" max="{{currentDurationSlider}}" ng-model="currentProgress" aria-label="orange" aria-controls="orange-slider" class="md-primary progress-slider" ></md-slider>
   <span class="total-duration">
     {{currentDuration}}
   </span>
 </div>
 
 <div class="player-controls" layout="row" layout-align="start center">
-  <md-button>
+  <md-button aria-label="repeat">
     <ng-md-icon size="26" style="fill:#EF6C00" icon="repeat"></ng-md-icon>
   </md-button>
-  <md-button>
+  <md-button ng-click="previousTrack()" aria-label="previous track">
     <ng-md-icon size="36" style="fill:#EF6C00" icon="skip_previous"></ng-md-icon>
   </md-button>
-  <md-button ng-click="togglePlaying()">
+  <md-button ng-click="togglePlaying()" aria-label="play pause track">
     <ng-md-icon size="40" style="fill:#EF6C00" icon="{{playerIcon}}" options='{"duration": 375, "rotation": "none"}'></ng-md-icon>
   </md-button>
-  <md-button>
+  <md-button ng-click="nextTrack()" aria-label="next track">
     <ng-md-icon size="36" style="fill:#EF6C00" icon="skip_next"></ng-md-icon>
   </md-button>
-  <md-button>
+  <md-button aria-label="mute unmute">
     <ng-md-icon size="28" style="fill:#EF6C00" icon="{{volumeIcon}}" options='{"duration": 375, "rotation": "none"}' ng-click="toggleMuted()"></ng-md-icon>
   </md-button>
   <md-slider min="0" max="100" aria-label="orange" aria-controls="orange-slider" ng-model="volume" class="md-primary volume-slider"></md-slider>

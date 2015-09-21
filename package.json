@@ -23,7 +23,6 @@
     "grunt-html2js": "^0.2.9",
     "grunt-ng-annotate": "^0.10.0",
     "grunt-node-webkit-builder": "^1.0.2",
-    "grunt-shell": "^1.1.2",
-    "sequelize-cli": "^1.7.0"
+    "grunt-shell": "^1.1.2"
   }
 }

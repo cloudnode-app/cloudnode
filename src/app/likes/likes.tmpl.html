@@ -1,0 +1,15 @@
+<md-content flex class="likes-content" layout="row" layout-align="space-around start" layout-wrap
+  data-ng-init="initLikes()"
+  infinite-scroll="loadNextPage()"
+  infinite-scroll-immediate-check="false"
+  infinite-scroll-container="'.likes-content'">
+
+  <track-card class="track-card" ng-repeat="(key, likeobj) in likes"
+    track="likeobj"
+    uuid="likeobj.id"
+    user="likeobj.user"
+    type=""
+    context="context">
+  </track-card>
+
+</md-content>

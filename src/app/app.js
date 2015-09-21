@@ -10,11 +10,16 @@ angular.module('cloudnode', [
   'ngMaterial',
   'ngMdIcons',
   'ngResource',
+  'ngAnimate',
   'templates-app',
 
   'cloudnode.sidebar',
+  'cloudnode.stream',
+  'cloudnode.likes',
   'cloudnode.service.api',
-  'cloudnode.directive.player'
+  'cloudnode.service.likes',
+  'cloudnode.directive.player',
+  'cloudnode.directive.trackcard'
 ])
 
 .config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) {
@@ -30,18 +35,26 @@ angular.module('cloudnode', [
       .dark();
 })
 
-.controller('AppCtrl', function($scope, ApiService) {
+.controller('AppCtrl', function($scope, ApiService, LikesService) {
   $scope.appLoaded  = false;
   $scope.meUser     = null;
+  $scope.meLikes    = null;
 
   $scope.initCloudNode = function () {
     ApiService.getMe().then(function(me) {
       $scope.meUser    = me;
+
+      initLikesService();
+
       $scope.appLoaded = true;
     }, function(err){
       console.warn(err);
     });
   };
+
+  function initLikesService() {
+    LikesService.init();
+  }
 
 });
 

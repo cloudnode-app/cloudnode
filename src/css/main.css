@@ -6,6 +6,15 @@ body {
   background: #303030;
 }
 
+md-content.md-default-theme.stream-content,
+md-content.md-default-theme.likes-content {
+  background: #303030;
+}
+
+.loader {
+  padding: 10px 0;
+}
+
 /*********************
  *  Typography
  ********************/
@@ -136,6 +145,10 @@ md-sidenav.md-sidenav-main {
   width: 100%;
 }
 
+.md-button.menu-button.active {
+    background-color: rgba(158,158,158,0.2);
+}
+
 ng-md-icon {
   vertical-align: middle;
   display: inline-block;
@@ -181,4 +194,122 @@ player {
 .volume-slider {
   width: 100px;
   padding-left: 10px;
+}
+
+/*****************
+ * Stream
+ ****************/
+
+
+/******************
+ * Track card
+ *****************/
+
+.track-card.ng-move,
+.track-card.ng-enter,
+.track-card.ng-leave {
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+          animation-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+}
+@-webkit-keyframes zoomIn {
+  from {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  to {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@keyframes zoomIn {
+  from {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  to {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@-webkit-keyframes zoomOut {
+  from {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  to {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+}
+@keyframes zoomOut {
+  from {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  to {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+}
+.track-card.ng-leave,
+.track-card.ng-move.ng-move-active,
+.track-card.ng-enter.ng-enter-active  {
+  -webkit-animation-name: zoomIn;
+          animation-name: zoomIn;
+}
+.track-card.ng-leave.ng-leave-active,
+.track-card.ng-move,
+.track-card.ng-enter {
+  -webkit-animation-name: zoomOut;
+          animation-name: zoomOut;
+}
+
+
+.track-card{
+  position: relative;
+}
+
+.track-image{
+  background-image: url('https://i1.sndcdn.com/artworks-000121103523-m82qsu-t300x300.jpg" alt="image" class="track-artwork');
+  background-size: contain;
+  width: 270px;
+  height:270px;
+}
+
+.track-image > .track-artist, .track-image > .track-title{
+  background: rgba(0,0,0,0.87);
+  padding: 2px 8px;
+  margin-left: 10px;
+}
+
+.track-image > .track-artist{
+  margin-bottom: 2px;
+}
+
+.track-image > .track-title{
+  margin-bottom: 10px;
+}
+
+.track-menu {
+  padding: 0;
+}
+
+.md-button.track-icon-btn {
+  height: 36px;
+  width: 36px;
+  line-height: 36px;
+}
+
+.md-button.md-fab.track-play{
+  background-color: #EF6C00;
+  bottom: 34px;
+  right: 10px;
+}
+
+.md-button.md-fab.track-play:not([disabled]):hover{
+  background-color: #D46000;
 }

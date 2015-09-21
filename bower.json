@@ -16,14 +16,15 @@
     "tests"
   ],
   "dependencies": {
-    "angularjs": "~1.4.1",
+    "angular-animate": "~1.4.1",
+    "angular-aria": "~1.4.1",
     "angular-material": "~0.10.0",
-    "angular-ui-router": "~0.2.15",
     "angular-material-icons": "~0.5.0",
     "angular-resource": "~1.4.1",
-    "angular-aria": "~1.4.1",
-    "angular-soundmanager2": "~0.5.6",
-    "angular-animate": "~1.4.1",
+    "angular-soundmanager2": "cloudnode-app/angular-soundmanager2#master",
+    "angular-ui-router": "~0.2.15",
+    "angularjs": "~1.4.1",
+    "ngInfiniteScroll": "cloudnode-app/nginfinitescroll#master",
     "svg-morpheus": "~0.1.8"
   }
 }

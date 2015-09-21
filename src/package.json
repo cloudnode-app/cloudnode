@@ -8,9 +8,9 @@
   "window": {
     "show": false,
     "toolbar": false,
-    "width": 1100,
+    "width": 1115,
     "height": 700,
-    "min_width": 1100,
+    "min_width": 1115,
     "min_height": 700
   },
   "dependencies": {

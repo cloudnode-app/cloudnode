@@ -10,6 +10,10 @@ var _this;
 function App() {
   this.request  = require('request');
   _this         = this;
+
+  var mb = new nwGui.Menu({type:'menubar'});
+  mb.createMacBuiltin('CloudNode');
+  nwGui.Window.get().menu = mb;
 }
 
 App.prototype.init = function() {

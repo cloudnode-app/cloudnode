@@ -51,17 +51,21 @@ module.exports = {
     vendor_files: {
         js: [
             'src/lib/angular/angular.js',
+            'src/lib/jquery/dist/jquery.js',
             'src/lib/angular-resource/angular-resource.js',
             'src/lib/angular-ui-router/release/angular-ui-router.js',
             'src/lib/angular-aria/angular-aria.js',
             'src/lib/angular-animate/angular-animate.js',
             'src/lib/angular-material/angular-material.js',
             'src/lib/angular-material-icons/angular-material-icons.js',
+            'src/lib/svg-morpheus/compile/minified/svg-morpheus.js',
             'src/lib/angular-soundmanager2/dist/angular-soundmanager2.js',
-            'src/lib/svg-morpheus/compile/minified/svg-morpheus.js'
+            'src/lib/ngInfiniteScroll/build/ng-infinite-scroll.js',
+            'src/lib/material-design-hierarchical-display/dist/jquery.zmd.hierarchical-display.js'
         ],
         css: [
-            'src/lib/angular-material/angular-material.css'
+            'src/lib/angular-material/angular-material.css',
+            'src/lib/material-design-hierarchical-display/dist/zmd.hierarchical-display.css'
         ],
         assets: [
         ],

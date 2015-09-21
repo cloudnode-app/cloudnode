@@ -25,6 +25,12 @@ if (!isMac)
 else
     nwExec = 'cd ./cache/' + nwVer + '/osx64 && open -n -a node-webkit ../../../dist';
 
+var nwExecFull = '';
+if (!isMac)
+    nwExecFull = 'nw ../../../dist';
+else
+    nwExecFull = 'open ./cloudnode-app/osx64/cloudnode-app.app';
+
 
 console.log('OS: ' + os);
 
@@ -209,6 +215,16 @@ module.exports = function(grunt) {
         dest: '<%= compile_dir%>/',
         cwd: './src/',
         expand:true
+      },
+      compile_codec_files: {
+        files: [
+          {
+            src: ['**'],
+            dest: 'cloudnode-app/osx64/cloudnode-app.app/Contents/Frameworks/nwjs Framework.framework/Libraries/',
+            cwd: './src/codecs/',
+            expand: true
+          }
+        ]
       }
     },
 
@@ -389,6 +405,16 @@ module.exports = function(grunt) {
               stderr: true,
               stdin: true
           }
+        },
+        run_full: {
+          command: function() {
+              return nwExecFull;
+          },
+          options: {
+              stdout: true,
+              stderr: true,
+              stdin: true
+          }
         }
       },
 
@@ -495,7 +521,7 @@ module.exports = function(grunt) {
   grunt.renameTask( 'watch', 'delta' );
   grunt.registerTask( 'watch', [ 'build', 'connect:development', 'delta' ] );
 
-  grunt.registerTask('default', ['build', 'quick_compile', 'nodewebkit', 'shell:run']);
+  grunt.registerTask('default', ['build', 'quick_compile', 'nodewebkit', 'copy:compile_codec_files', 'shell:run_full']);
   grunt.registerTask('full_build', ['build', 'quick_compile', 'nodewebkit', 'shell:run']);
 
   grunt.registerTask('run', ['default']);

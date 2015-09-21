@@ -1,0 +1,33 @@
+<md-card class="track-card" data-ng-init="initTrack()">
+   <div class="track-image" layout="column" layout-align="end start" style="background-image:url('{{track.artwork_url}}')">
+     <span class="track-artist">
+       {{track.user.username}}
+     </span>
+     <span class="track-title">
+        {{track.title}}
+     </span>
+   </div>
+  <md-card-content layout="row" layout-align="start start">
+    <md-button class="md-icon-button track-icon-btn" aria-label="Like this track" ng-click="toggleTrackLiked()">
+      <md-tooltip>
+        {{likedConfig[isLiked].tooltip}}
+      </md-tooltip>
+      <ng-md-icon class="menu-icon" icon="favorite" size="24" style="fill:{{likedConfig[isLiked].color}}"></ng-md-icon>
+    </md-button>
+    <md-button class="md-icon-button track-icon-btn" aria-label="Add to queue">
+      <md-tooltip>
+        Add to queue
+      </md-tooltip>
+      <ng-md-icon class="menu-icon" icon="queue_music" size="24" style="fill:#FFF"></ng-md-icon>
+    </md-button>
+    <md-button class="md-icon-button track-icon-btn" aria-label="Add to a playlist">
+      <md-tooltip>
+        Add to playlist
+      </md-tooltip>
+      <ng-md-icon class="menu-icon" icon="playlist_add" size="24" style="fill:#FFF"></ng-md-icon>
+    </md-button>
+  </md-card-content>
+   <md-button class="md-fab md-fab-bottom-right track-play" aria-label="Play track" ng-click="togglePlayTrack()">
+     <ng-md-icon class="menu-icon" icon="{{fabIcon[isPlaying]}}" size="40" style="fill:#FFF"></ng-md-icon>
+   </md-button>
+</md-card>

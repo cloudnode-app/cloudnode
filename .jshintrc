@@ -1,6 +1,5 @@
 {
   "globalstrict": true,
-  "camelcase": true,
   "eqeqeq": true,
   "indent": 2,
   "newcap": true,
