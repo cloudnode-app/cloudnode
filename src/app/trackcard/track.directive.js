@@ -24,6 +24,8 @@ directive('trackCard', function(){
     link: function postCompile(scope) {
       if (!angular.isUndefined(scope.track) && scope.track.hasOwnProperty('artwork_url'))
         scope.track.artwork_url = scope.track.artwork_url.replace('large', 't300x300');
+      else
+        scope.track.artwork_url = 'assets/artwork_placeholder.png';
     }
   };
 });

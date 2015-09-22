@@ -3,7 +3,7 @@
 /**
 * cloudnode.likes Module
 *
-* Description
+* The Likes view controller and config
 */
 angular.module('cloudnode.likes', [
   'ui.router',
@@ -23,6 +23,9 @@ angular.module('cloudnode.likes', [
 
 .controller('LikesCtrl', function ($scope, LikesService, QueueService) {
 
+  /**
+   * The scope variables
+   */
   $scope.likes      = [];
   $scope.isLoading  = false;
   $scope.context    = 'likes';
@@ -35,7 +38,7 @@ angular.module('cloudnode.likes', [
     if (LikesService.isInitialized()) {
       QueueService.onContextChange($scope.context, contextChangedListener);
 
-      filterLikes(LikesService.getAllLikes());
+      addToLikes(LikesService.getAllLikes());
       $scope.isLoading = false;
     } else {
       $scope.isLoading = true;
@@ -43,24 +46,51 @@ angular.module('cloudnode.likes', [
     }
   };
 
+  /**
+   * TODO: add implementation
+   *
+   * Load next page for the likes
+   * @return {[type]} [description]
+   */
   $scope.loadNextPage = function loadNextPage() {
 
   };
 
+  /**
+   * Gets called when the context of the QueueService
+   * changes to this controllers context and will
+   * return the liked tracks to the QueueService
+   * @return {array} The array of liked tracks
+   */
   function contextChangedListener() {
     return $scope.likes;
   }
 
+  /**
+   * Add a like item to the queue
+   * Checks if the QueueService has this controllers context
+   * @param {object} item The liked item to add to the queue
+   */
   function addToQueue(item) {
     if (QueueService.canAddToQueue($scope.context)) {
       QueueService.add($scope.context, item);
     }
   }
 
-  function filterLikes(likes) {
+  /**
+   * Add liked items to the likes array
+   *
+   * At the moment the application doesn't
+   * support playlists, so we filter these out
+   *
+   * @param {array} newItems Array of items to add to the liked array
+   */
+  function addToLikes(likes) {
     for (var i = 0; i < likes.length; i++) {
       if (likes[i].type !== 'playlist-repost' && likes[i].type !== 'playlist'){
+        // Set the track id as uuid for now
         likes[i].uuid = likes[i].id;
+
         $scope.likes.push(likes[i]);
         addToQueue($scope.context, likes[i]);
       }

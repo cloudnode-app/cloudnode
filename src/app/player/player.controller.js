@@ -29,7 +29,7 @@ angular.module('cloudnode.directive.player', [
   resetPlayerValues();
 
   /**
-   * Player controls
+   * Volume variables
    */
   $scope.volumeIcon = 'volume_up';
   $scope.volume = 100;
@@ -39,14 +39,14 @@ angular.module('cloudnode.directive.player', [
   $scope.playerIcon = 'play_circle_outline';
 
   /**
-   * Slider control
+   * Slider variables
    */
   var isDragging      = false;
   var sliderElement   = angular.element('md-slider.progress-slider');
   var trackContainer  = angular.element(angular.element('md-slider')[0].querySelector('.md-track-container'));
 
   /**
-   * Current track
+   * Current track id
    */
   var currentTrackId = 0;
 
@@ -91,23 +91,44 @@ angular.module('cloudnode.directive.player', [
     }
   };
 
+  /**
+   * Play the current track
+   * The broadcast is handled by 'track:id'
+   * @return {void}
+   */
   function playCurrentTrack() {
     $scope.playerIcon = 'pause_circle_outline';
     angularPlayer.play();
   }
 
+  /**
+   * Pause the current track
+   * Broadcast that the track is paused
+   * @return {void}
+   */
   function pauseCurrentTrack() {
     $scope.playerIcon = 'play_circle_outline';
     angularPlayer.pause();
     $rootScope.$broadcast('track.setPause', currentTrackId);
   }
 
+  /**
+   * If the current track changes from the player
+   * set the icon of a track card to the play icon
+   * through a broadcast
+   * @return {void}
+   */
   function resetCurrentTrackPlayIcon() {
     if (currentTrackId !== 0) {
       $rootScope.$broadcast('track.setPause', currentTrackId);
     }
   }
 
+  /**
+   * Get the previous track in the Queue
+   * If no previous track reset the player values
+   * @return {void}
+   */
   $scope.previousTrack = function previousTrack() {
     var track = QueueService.getPrevious();
     resetCurrentTrackPlayIcon();
@@ -117,6 +138,11 @@ angular.module('cloudnode.directive.player', [
       resetPlayerValues();
   };
 
+  /**
+   * Get the next track in the Queue
+   * If no next track reset the player values
+   * @return {void}
+   */
   $scope.nextTrack = function nextTrack() {
     var track = QueueService.getNext();
     resetCurrentTrackPlayIcon();
@@ -125,6 +151,53 @@ angular.module('cloudnode.directive.player', [
     else
       resetPlayerValues();
   };
+
+  $rootScope.$on('player.play.track', playEventTrack);
+  $rootScope.$on('player.pause.track', pauseCurrentTrack);
+
+  /**
+   * Play a track object
+   * Set the current track and create
+   * an AngularPlayer track object
+   * @param  {object} track The track to play
+   * @return {void}
+   */
+  function playTrack(track) {
+    var trackId = 'track' + track.id;
+    angularPlayer.addTrack({
+            id: trackId,
+            artist: track.artist,
+            title: track.title,
+            url: ApiService.getStreamableUrl(track.stream_url)
+        });
+
+    currentTrackId = track.id;
+    angularPlayer.playTrack(trackId);
+    $scope.playerIcon = 'pause_circle_outline';
+  }
+
+  /**
+   * Handle the play track event
+   * If it is the current track then resume playing
+   * @param  {event}  event The event object
+   * @param  {object} track The track object
+   * @return {void}
+   */
+  function playEventTrack(event, track) {
+    if (track.id === currentTrackId)
+      playCurrentTrack();
+    else
+      playTrack(track);
+  }
+
+  /**
+   * Handle AngularPlayer broadcast for track play
+   * @param  {function} Broadcast that the track is playing
+   * @return {void}
+   */
+  $rootScope.$on('track:id', function(){
+    $rootScope.$broadcast('track.setPlaying', currentTrackId);
+  });
 
   /********************************
    * Progress Slider
@@ -179,6 +252,10 @@ angular.module('cloudnode.directive.player', [
     angularPlayer.seekCurrentTrack(toPosition);
   });
 
+  /***********************
+   * Utility functions
+   **********************/
+
   /**
    * Converts a x position to a percentage for the slider
    * @param  {int} x                    The x position of the slider
@@ -197,32 +274,4 @@ angular.module('cloudnode.directive.player', [
   function percentToValue( percent ) {
     return (0 + percent * ($scope.currentDurationSlider - 0));
   }
-
-  function playTrack(track) {
-    var trackId = 'track' + track.id;
-    angularPlayer.addTrack({
-            id: trackId,
-            artist: track.artist,
-            title: track.title,
-            url: ApiService.getStreamableUrl(track.stream_url)
-        });
-
-    currentTrackId = track.id;
-    angularPlayer.playTrack(trackId);
-    $scope.playerIcon = 'pause_circle_outline';
-  }
-
-  $rootScope.$on('player.play.track', playEventTrack);
-  $rootScope.$on('player.pause.track', pauseCurrentTrack);
-
-  function playEventTrack(event, track) {
-    if (track.id === currentTrackId)
-      playCurrentTrack();
-    else
-      playTrack(track);
-  }
-
-  $rootScope.$on('track:id', function(){
-    $rootScope.$broadcast('track.setPlaying', currentTrackId);
-  });
 });

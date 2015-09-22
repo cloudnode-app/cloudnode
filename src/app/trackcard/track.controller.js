@@ -10,6 +10,7 @@ angular.module('cloudnode.directive.trackcard', [
 ])
 
 .controller('TrackCtrl', function ($scope, $rootScope, LikesService) {
+  // Liked variables
   $scope.isLiked = false;
   $scope.likedConfig = {
     true: {
@@ -22,13 +23,18 @@ angular.module('cloudnode.directive.trackcard', [
     }
   };
 
+  // Playing variables
   $scope.isPlaying = false;
   $scope.fabIcon = {
     true: 'pause',
     false: 'play_arrow'
   };
 
-
+  /**
+   * Set the track uuid for use in the queue
+   * Check if the LikesService is initialized
+   * @return {[type]} [description]
+   */
   $scope.initTrack = function initTrack() {
     $scope.track.uuid = $scope.uuid;
     if (LikesService.isInitialized()) {
@@ -38,6 +44,16 @@ angular.module('cloudnode.directive.trackcard', [
     }
   };
 
+  /**
+   * Track controls
+   */
+
+  /**
+   * Toggle playing the track
+   * Broadcast a play or pause which the player
+   * will receive and use to play the track
+   * @return {void}
+   */
   $scope.togglePlayTrack = function playTrack() {
     if ($scope.isPlaying){
       $rootScope.$broadcast('player.pause.track', $scope.track.id);
@@ -47,16 +63,42 @@ angular.module('cloudnode.directive.trackcard', [
     }
   };
 
+  /**
+   * Handler for receiving track is playing event.
+   * Sets the isPlaying var to true and with that
+   * the icon for the fab button
+   * @param  {object} event The event object
+   * @param  {int}    id    The id of the track that is playing
+   * @return {void}
+   */
   $rootScope.$on('track.setPlaying', function (event, id){
     if ($scope.track.id === id)
       $scope.isPlaying = true;
   });
 
+  /**
+   * Handler for receiving track is pause event.
+   * Sets the isPlaying var to false and with that
+   * the icon for the fab button
+   * @param  {object} event The event object
+   * @param  {int}    id    The id of the track that is paused
+   * @return {void}
+   */
   $rootScope.$on('track.setPause', function (event, id){
     if ($scope.track.id === id)
       $scope.isPlaying = false;
   });
 
+  /**
+   * Like functions
+   */
+
+  /**
+   * Toggle the liking of the track
+   * Call the LikesService based on if the track is
+   * liked or not
+   * @return {void}
+   */
   $scope.toggleTrackLiked = function toggleTrackLiked() {
     if ($scope.isLiked) {
       LikesService.unlikeTrack($scope.track.id).then(function(){
@@ -73,6 +115,11 @@ angular.module('cloudnode.directive.trackcard', [
     }
   };
 
+  /**
+   * Check with the LikesService if the
+   * track is liked by the user. Set the
+   * isLiked variable
+   */
   function setIfTrackLiked() {
     if (LikesService.isLiked($scope.track.id)) {
       $scope.isLiked = true;
