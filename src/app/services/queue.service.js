@@ -9,6 +9,7 @@ angular.module('cloudnode.service.queue', [
   var context = '';
   var contextObservers = [];
   var queueInit = true;
+  var currentItemObserver = null;
 
   var QueueService = {
 
@@ -24,10 +25,20 @@ angular.module('cloudnode.service.queue', [
 
     setCurrent: function setCurrentQueueItem(item) {
       QueueStruct.setCurrent(item);
+      if (currentItemObserver !== null)
+        currentItemObserver(item);
     },
 
     getCurrent: function getCurrentQueueItem() {
       return QueueStruct.getCurrent();
+    },
+
+    onCurrentItemChange: function onCurrentItemChange(callback) {
+      currentItemObserver = callback;
+    },
+
+    removeCurrentItemChangeListener: function removeCurrentItemChangeListener(){
+      currentItemObserver = null;
     },
 
     getNext: function getNextQueueItem() {
