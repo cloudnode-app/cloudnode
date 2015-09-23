@@ -96,7 +96,7 @@ angular.module('cloudnode.stream', [
    */
   function addToQueue(item) {
     if (QueueService.canAddToQueue($scope.context)) {
-      QueueService.add($scope.context, item);
+      QueueService.addToEnd(item, $scope.context);
     }
   }
 
@@ -118,7 +118,7 @@ angular.module('cloudnode.stream', [
 
         // Add only the track object to the queue array
         streamTracks.push(newItems[i].track);
-        addToQueue($scope.context, newItems[i].track);
+        addToQueue(newItems[i].track);
       }
     }
   }

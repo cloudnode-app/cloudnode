@@ -1,0 +1,82 @@
+<md-tabs md-stretch-tabs="always" flex layout-fill md-border-bottom="" ng-init="initQueue()">
+  <md-tab label="Queue">
+    <md-content flex layout-fill layout="column" class="md-padding dark-content">
+      <div layout="column">
+        <h3 class="table-title">Current Track</h3>
+        <table class="queue-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th></th>
+              <th></th>
+              <th>Title</th>
+              <th>Artist</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>+</td>
+              <td><3</td>
+              <td>{{currentTrack.title}}</td>
+              <td>{{currentTrack.user.username}}</td>
+              <td>{{currentTrack.duration}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div layout="column">
+        <h3 class="table-title">Next Tracks</h3>
+        <table class="queue-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th></th>
+              <th></th>
+              <th>Title</th>
+              <th>Artist</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="(key, queueItem) in queueItems">
+              <td>{{key + 1}}</td>
+              <td>+</td>
+              <td><3</td>
+              <td>{{queueItem.title}}</td>
+              <td>{{queueItem.user.username}}</td>
+              <td>{{queueItem.duration}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </md-content>
+  </md-tab>
+  <md-tab label="History">
+    <md-content class="md-padding dark-content">
+        <table class="queue-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th></th>
+              <th></th>
+              <th>Title</th>
+              <th>Artist</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="(key, historyItem) in historyItems">
+              <td>{{key + 1}}</td>
+              <td>+</td>
+              <td><3</td>
+              <td>{{historyItem.title}}</td>
+              <td>{{historyItem.user.username}}</td>
+              <td>{{historyItem.duration}}</td>
+            </tr>
+          </tbody>
+        </table>
+    </md-content>
+  </md-tab>
+</md-tabs>

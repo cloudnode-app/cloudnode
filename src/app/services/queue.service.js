@@ -14,8 +14,14 @@ angular.module('cloudnode.service.queue', [
   var QueueService = {
 
     add: function addToQueue(track, fromContext) {
-      if (fromContext === context)
+      if (fromContext === context) {
         QueueStruct.add(track);
+      }
+    },
+
+    addToEnd: function addToQueueEnd(track, fromContext) {
+      if (fromContext === context)
+        QueueStruct.addToEnd(track);
     },
 
     addArray: function addArrayToQueue(trackArr, fromContext) {
@@ -23,8 +29,15 @@ angular.module('cloudnode.service.queue', [
         QueueStruct.addArray(trackArr);
     },
 
-    setCurrent: function setCurrentQueueItem(item) {
-      QueueStruct.setCurrent(item);
+    addArrayToEnd: function addArrayToQueueEnd(trackArr, fromContext) {
+      if (fromContext === context)
+        QueueStruct.addArrayToEnd(trackArr);
+    },
+
+    setCurrent: function setCurrentQueueItem(item, ignoreStruct) {
+      if (!ignoreStruct)
+        QueueStruct.setCurrent(item);
+
       if (currentItemObserver !== null)
         currentItemObserver(item);
     },
@@ -42,11 +55,19 @@ angular.module('cloudnode.service.queue', [
     },
 
     getNext: function getNextQueueItem() {
-      return QueueStruct.getNext();
+      var item = QueueStruct.getNext();
+
+      this.setCurrent(item, true);
+
+      return item;
     },
 
     getPrevious: function getPreviousQueueItem() {
-      return QueueStruct.getPrevious();
+      var item = QueueStruct.getPrevious();
+
+      this.setCurrent(item, true);
+
+      return item;
     },
 
     canAddToQueue: function canAddToQueue(fromContext) {
@@ -83,6 +104,10 @@ angular.module('cloudnode.service.queue', [
 
     emptyQueue: function emptyQueue() {
       QueueStruct.empty();
+    },
+
+    getQueue: function getQueue() {
+      return QueueStruct.getQueue();
     }
 
   };

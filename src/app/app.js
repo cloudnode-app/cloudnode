@@ -16,6 +16,7 @@ angular.module('cloudnode', [
   'cloudnode.sidebar',
   'cloudnode.stream',
   'cloudnode.likes',
+  'cloudnode.queue',
   'cloudnode.service.api',
   'cloudnode.service.likes',
   'cloudnode.directive.player',

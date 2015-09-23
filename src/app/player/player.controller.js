@@ -154,7 +154,7 @@ angular.module('cloudnode.directive.player', [
 
   $rootScope.$on('player.play.track', playEventTrack);
   $rootScope.$on('player.pause.track', pauseCurrentTrack);
-
+  $rootScope.$on('track:finished', $scope.nextTrack);
   /**
    * Play a track object
    * Set the current track and create

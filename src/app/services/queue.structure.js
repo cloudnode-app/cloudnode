@@ -32,9 +32,34 @@ angular.module('cloudnode.structure.queue', [
     if (Queue.first !== null) {
       node.next         = Queue.first;
       Queue.first.prev  = node;
+
+      if (Queue.first === Queue.current)
+        Queue.current.prev = node;
     }
 
+    if (Queue.last === null)
+      Queue.last = node;
+
     Queue.first = node;
+    Queue.size++;
+  };
+
+  Queue.addToEnd = function addToQueueEnd(track) {
+    var node = new Node(track);
+
+    if (Queue.first === null) {
+      Queue.first = node;
+    }
+    node.prev = Queue.last;
+
+    if (Queue.last !== null){
+      Queue.last.next = node;
+
+      if (Queue.last === Queue.current)
+        Queue.current.next = node;
+    }
+
+    Queue.last = node;
     Queue.size++;
   };
 
@@ -44,12 +69,19 @@ angular.module('cloudnode.structure.queue', [
     }
   };
 
+  Queue.addArrayToEnd = function addArrayToQueueEnd(trackArr) {
+    for (var i = trackArr.length - 1; i >= 0; i--) {
+      Queue.addToEnd(trackArr[i]);
+    }
+  };
+
   Queue.getCurrent = function getCurrent() {
     return Queue.current.data;
   };
 
   Queue.setCurrent = function setCurrent(item) {
-    Queue.current = Queue.find(item);
+    var current = Queue.find(item);
+    Queue.current = current;
   };
 
   Queue.getNext = function getNext() {
@@ -75,12 +107,13 @@ angular.module('cloudnode.structure.queue', [
   Queue.find = function findNode(item) {
     var node = Queue.first;
 
-    while(node.next) {
+    while(node !== null) {
       if (node.data.uuid === item.uuid) {
         return node;
       }
       node = node.next;
     }
+    return null;
   };
 
   Queue.remove = function removeFromQueue(trackId) {
@@ -111,6 +144,30 @@ angular.module('cloudnode.structure.queue', [
       return node;
     }
     return null;
+  };
+
+  Queue.getAll = function getAllQueueItems() {
+    var allItems = [];
+
+    var node = Queue.first;
+    while (node !== null) {
+      allItems.push(node.data);
+
+      node = node.next;
+    }
+    return allItems;
+  };
+
+  Queue.getQueue = function getQueueItems() {
+    var allItems = [];
+
+    var node = Queue.current.next;
+    while (node !== null) {
+      allItems.push(node.data);
+
+      node = node.next;
+    }
+    return allItems;
   };
 
   return Queue;

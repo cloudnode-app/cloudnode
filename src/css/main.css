@@ -7,7 +7,8 @@ body {
 }
 
 md-content.md-default-theme.stream-content,
-md-content.md-default-theme.likes-content {
+md-content.md-default-theme.likes-content,
+md-content.md-default-theme.dark-content {
   background: #303030;
 }
 
@@ -313,3 +314,47 @@ player {
 .md-button.md-fab.track-play:not([disabled]):hover{
   background-color: #D46000;
 }
+
+/*****************
+ * Queue
+ ****************/
+
+md-tab-content > div {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  height: 100%;
+}
+
+.table-title{
+  font-weight: 400;
+  padding-left: 10px;
+  margin-bottom: 0;
+}
+
+.queue-table {
+  width: 100%;
+  border-spacing: 0;
+}
+
+.queue-table thead {
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.queue-table thead th {
+  font-weight: 500;
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+}
+
+.queue-table th,
+.queue-table td{
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding: 10px;
+}
+
+.queue-table tbody tr:hover{
+  background-color: rgba(255,255,255,0.2);
+}
+
