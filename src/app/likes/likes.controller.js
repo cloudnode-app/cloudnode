@@ -10,6 +10,7 @@ angular.module('cloudnode.likes', [
 
   'cloudnode.service.likes',
   'cloudnode.service.queue',
+  'cloudnode.service.cache',
   'infinite-scroll'
 ])
 
@@ -21,7 +22,7 @@ angular.module('cloudnode.likes', [
   });
 })
 
-.controller('LikesCtrl', function ($scope, LikesService, QueueService) {
+.controller('LikesCtrl', function ($scope, LikesService, QueueService, CacheService) {
 
   /**
    * The scope variables
@@ -30,19 +31,28 @@ angular.module('cloudnode.likes', [
   $scope.isLoading  = false;
   $scope.context    = 'likes';
 
+  var nextHref;
+
   /**
    * Initialize the Likes page
    * @return {void}
    */
   $scope.initLikes = function initLikes(){
-    if (LikesService.isInitialized()) {
-      QueueService.onContextChange($scope.context, contextChangedListener);
+    if (CacheService.isInCache($scope.context)) {
+      var cache     = CacheService.getCache($scope.context);
 
-      addToLikes(LikesService.getAllLikes());
-      $scope.isLoading = false;
+      addToLikes(cache.likes);
+      nextHref = cache.nextHref;
     } else {
-      $scope.isLoading = true;
-      LikesService.onInitialized($scope.initLikes());
+      if (LikesService.isInitialized()) {
+        QueueService.onContextChange($scope.context, contextChangedListener);
+
+        addToLikes(LikesService.getAllLikes());
+        $scope.isLoading = false;
+      } else {
+        $scope.isLoading = true;
+        LikesService.onInitialized($scope.initLikes());
+      }
     }
   };
 
@@ -55,6 +65,13 @@ angular.module('cloudnode.likes', [
   $scope.loadNextPage = function loadNextPage() {
 
   };
+
+  $scope.$on('$destroy', function(){
+    CacheService.addToCache($scope.context, {
+      likes: $scope.likes,
+      nextHref: nextHref
+    });
+  });
 
   /**
    * Gets called when the context of the QueueService

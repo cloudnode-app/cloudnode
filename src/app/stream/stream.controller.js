@@ -11,6 +11,7 @@ angular.module('cloudnode.stream', [
 
   'cloudnode.service.api',
   'cloudnode.service.queue',
+  'cloudnode.service.cache',
   'infinite-scroll'
 ])
 
@@ -22,7 +23,7 @@ angular.module('cloudnode.stream', [
   });
 })
 
-.controller('StreamCtrl', function ($scope, ApiService, QueueService) {
+.controller('StreamCtrl', function ($scope, ApiService, QueueService, CacheService) {
 
   /**
    * Private variables
@@ -46,13 +47,20 @@ angular.module('cloudnode.stream', [
   $scope.initStream = function initStream(){
     QueueService.onContextChange($scope.context, contextChangedListener);
 
-    ApiService.getStream().then(function(stream){
-      nextHref = stream.next_href;
+    if (CacheService.isInCache($scope.context)) {
+      var cache     = CacheService.getCache($scope.context);
 
-      addToStream(stream.collection);
-    }, function(){
+      addToStream(cache.stream);
+      nextHref      = cache.nextHref;
+    } else {
+      ApiService.getStream().then(function(stream){
+        nextHref = stream.next_href;
 
-    });
+        addToStream(stream.collection);
+      }, function(){
+
+      });
+    }
   };
 
   /**
@@ -78,6 +86,13 @@ angular.module('cloudnode.stream', [
     }
 
   };
+
+  $scope.$on('$destroy', function(){
+    CacheService.addToCache($scope.context, {
+      stream: $scope.stream,
+      nextHref: nextHref
+    });
+  });
 
   /**
    * Gets called when the context of the QueueService

@@ -72,6 +72,7 @@ angular.module('cloudnode.directive.trackcard', [
    * @return {void}
    */
   $rootScope.$on('track.setPlaying', function (event, id){
+    console.log($scope.track.id, id);
     if ($scope.track.id === id)
       $scope.isPlaying = true;
   });

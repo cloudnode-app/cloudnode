@@ -15,23 +15,32 @@ angular.module('cloudnode.service.queue', [
 
     add: function addToQueue(track, fromContext) {
       if (fromContext === context) {
-        QueueStruct.add(track);
+        var queueObj = createQueueObject(track);
+        QueueStruct.add(queueObj);
       }
     },
 
     addToEnd: function addToQueueEnd(track, fromContext) {
-      if (fromContext === context)
-        QueueStruct.addToEnd(track);
+      if (fromContext === context){
+        var queueObj = createQueueObject(track);
+        QueueStruct.addToEnd(queueObj);
+      }
     },
 
     addArray: function addArrayToQueue(trackArr, fromContext) {
-      if (fromContext === context)
-        QueueStruct.addArray(trackArr);
+      if (fromContext === context) {
+        for (var i = trackArr.length - 1; i >= 0; i--) {
+          QueueService.add(trackArr[i], fromContext);
+        }
+      }
     },
 
     addArrayToEnd: function addArrayToQueueEnd(trackArr, fromContext) {
-      if (fromContext === context)
-        QueueStruct.addArrayToEnd(trackArr);
+      if (fromContext === context) {
+        for (var i = trackArr.length - 1; i >= 0; i--) {
+          QueueService.addToEnd(trackArr[i], fromContext);
+        }
+      }
     },
 
     setCurrent: function setCurrentQueueItem(item, ignoreStruct) {
@@ -136,7 +145,18 @@ angular.module('cloudnode.service.queue', [
     }
   });
 
-
+  function createQueueObject(item) {
+    var queueObject = {
+      title: item.title,
+      artist: item.user.username,
+      artistId: item.user.id,
+      id: item.id,
+      uuid: item.uuid,
+      stream_url: item.stream_url,
+      duration: item.duration
+    };
+    return queueObject;
+  }
 
   return QueueService;
 });

@@ -63,18 +63,6 @@ angular.module('cloudnode.structure.queue', [
     Queue.size++;
   };
 
-  Queue.addArray = function addArrayToQueue(trackArr) {
-    for (var i = trackArr.length - 1; i >= 0; i--) {
-      Queue.add(trackArr[i]);
-    }
-  };
-
-  Queue.addArrayToEnd = function addArrayToQueueEnd(trackArr) {
-    for (var i = trackArr.length - 1; i >= 0; i--) {
-      Queue.addToEnd(trackArr[i]);
-    }
-  };
-
   Queue.getCurrent = function getCurrent() {
     return Queue.current.data;
   };
