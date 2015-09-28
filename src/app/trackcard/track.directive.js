@@ -15,7 +15,7 @@ directive('trackCard', function(){
     restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
     scope: {
       track: '=',
-      user: '=',
+      repostUser: '=',
       type: '=',
       context: '=',
       uuid: '='
@@ -26,6 +26,11 @@ directive('trackCard', function(){
         scope.track.artwork_url = scope.track.artwork_url.replace('large', 't300x300');
       else
         scope.track.artwork_url = 'assets/artwork_placeholder.png';
+
+      if ((scope.repostUser !== '' || scope.repostUser !== null) &&
+          (scope.type === 'track-repost' || scope.type === 'playlist-repost')) {
+        scope.isStreamRepost = true;
+      }
     }
   };
 });

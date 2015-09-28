@@ -6,10 +6,12 @@
 * Description
 */
 angular.module('cloudnode.directive.trackcard', [
-  'cloudnode.service.likes'
+  'cloudnode.service.likes',
+  'cloudnode.service.repost',
+  'cloudnode.service.queue'
 ])
 
-.controller('TrackCtrl', function ($scope, $rootScope, LikesService) {
+.controller('TrackCtrl', function ($scope, $rootScope, LikesService, RepostService, QueueService) {
   // Liked variables
   $scope.isLiked = false;
   $scope.likedConfig = {
@@ -20,6 +22,19 @@ angular.module('cloudnode.directive.trackcard', [
     false: {
       color: '#fff',
       tooltip: 'Like track'
+    }
+  };
+
+  // Liked variables
+  $scope.isReposted = false;
+  $scope.repostConfig = {
+    true: {
+      color: '#EF6C00',
+      tooltip: 'Remove repost'
+    },
+    false: {
+      color: '#fff',
+      tooltip: 'Repost track'
     }
   };
 
@@ -37,10 +52,17 @@ angular.module('cloudnode.directive.trackcard', [
    */
   $scope.initTrack = function initTrack() {
     $scope.track.uuid = $scope.uuid;
+
     if (LikesService.isInitialized()) {
       setIfTrackLiked();
     } else {
       LikesService.onInitialized(setIfTrackLiked);
+    }
+
+    if (RepostService.isInitialized()) {
+      setIfTrackReposted();
+    } else {
+      RepostService.onInitialized(setIfTrackReposted);
     }
   };
 
@@ -72,7 +94,6 @@ angular.module('cloudnode.directive.trackcard', [
    * @return {void}
    */
   $rootScope.$on('track.setPlaying', function (event, id){
-    console.log($scope.track.id, id);
     if ($scope.track.id === id)
       $scope.isPlaying = true;
   });
@@ -126,5 +147,49 @@ angular.module('cloudnode.directive.trackcard', [
       $scope.isLiked = true;
     }
   }
+
+  /**
+   * Repost functions
+   */
+
+  /**
+   * Toggle the reposting of the track
+   * Call the RepostService based on if the track is
+   * reposted or not
+   * @return {void}
+   */
+  $scope.toggleTrackRepost = function toggleTrackRepost() {
+    if ($scope.isReposted) {
+      RepostService.unRepost($scope.track.id).then(function(){
+        $scope.isReposted = false;
+      }, function(){
+
+      });
+    } else {
+      RepostService.repost($scope.track).then(function(){
+        $scope.isReposted = true;
+      }, function(){
+
+      });
+    }
+  };
+
+  /**
+   * Check with the RepostService if the
+   * track is reposted by the user. Set the
+   * isReposted variable
+   */
+  function setIfTrackReposted() {
+    if (RepostService.isReposted($scope.track.id)) {
+      $scope.isReposted = true;
+    }
+  }
+
+  /**
+   * Add the track as next item in the queue
+   */
+  $scope.addToQueue = function addToQueue() {
+    QueueService.addNext($scope.track);
+  };
 
 });

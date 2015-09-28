@@ -1,20 +1,25 @@
 <md-card class="track-card" data-ng-init="initTrack()">
    <div class="track-image" layout="column" layout-align="end start" style="background-image:url('{{track.artwork_url}}')">
-     <span class="track-artist">
+     <span class="track-artist" title="{{track.user.username}} - {{repostUser.username}}">
        {{track.user.username}}
+
+       <span ng-show="isStreamRepost">
+         <ng-md-icon class="artis-icon" icon="repeat" size="24" style="fill:#FFF"></ng-md-icon>
+         {{repostUser.username}}
+       </span>
      </span>
-     <span class="track-title">
+     <span class="track-title" title="{{track.title}}">
         {{track.title}}
      </span>
    </div>
-  <md-card-content layout="row" layout-align="start start">
-    <md-button class="md-icon-button track-icon-btn" aria-label="Like this track" ng-click="toggleTrackLiked()">
+  <md-card-content class="track-card-content" layout="row" layout-align="start start">
+    <md-button class="md-icon-button track-icon-btn" aria-label="{{likedConfig[isLiked].tooltip}}" ng-click="toggleTrackLiked()">
       <md-tooltip>
         {{likedConfig[isLiked].tooltip}}
       </md-tooltip>
       <ng-md-icon class="menu-icon" icon="favorite" size="24" style="fill:{{likedConfig[isLiked].color}}"></ng-md-icon>
     </md-button>
-    <md-button class="md-icon-button track-icon-btn" aria-label="Add to queue">
+    <md-button class="md-icon-button track-icon-btn" aria-label="Add to queue" ng-click="addToQueue()">
       <md-tooltip>
         Add to queue
       </md-tooltip>
@@ -25,6 +30,12 @@
         Add to playlist
       </md-tooltip>
       <ng-md-icon class="menu-icon" icon="playlist_add" size="24" style="fill:#FFF"></ng-md-icon>
+    </md-button>
+    <md-button class="md-icon-button track-icon-btn" aria-label="{{repostConfig[isReposted].tooltip}}" ng-click="toggleTrackRepost()">
+      <md-tooltip>
+        {{repostConfig[isReposted].tooltip}}
+      </md-tooltip>
+      <ng-md-icon class="menu-icon" icon="repeat" size="24" style="fill:{{repostConfig[isReposted].color}}"></ng-md-icon>
     </md-button>
   </md-card-content>
    <md-button class="md-fab md-fab-bottom-right track-play" aria-label="Play track" ng-click="togglePlayTrack()">
