@@ -21,7 +21,9 @@ angular.module('cloudnode', [
   'cloudnode.service.likes',
   'cloudnode.service.repost',
   'cloudnode.directive.player',
-  'cloudnode.directive.trackcard'
+  'cloudnode.directive.trackcard',
+
+  'cloudnode.filters.duration'
 ])
 
 .config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) {

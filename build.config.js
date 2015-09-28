@@ -61,7 +61,8 @@ module.exports = {
             'src/lib/svg-morpheus/compile/minified/svg-morpheus.js',
             'src/lib/angular-soundmanager2/dist/angular-soundmanager2.js',
             'src/lib/ngInfiniteScroll/build/ng-infinite-scroll.js',
-            'src/lib/material-design-hierarchical-display/dist/jquery.zmd.hierarchical-display.js'
+            'src/lib/moment/min/moment.min.js',
+            'src/lib/moment-duration-format/lib/moment-duration-format.js'
         ],
         css: [
             'src/lib/angular-material/angular-material.css',

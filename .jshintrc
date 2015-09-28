@@ -15,6 +15,7 @@
     "require": false,
     "window": false,
     "document": false,
-    "soundManager": false
+    "soundManager": false,
+    "moment": false
   }
 }

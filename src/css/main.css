@@ -265,7 +265,9 @@ player {
   height:270px;
 }
 
-.track-image > .track-artist, .track-image > .track-title{
+.track-image > .track-artist,
+.track-image > .track-title,
+.track-image > .track-duration {
   background: rgba(0,0,0,0.87);
   padding: 2px 8px;
   margin-left: 10px;
@@ -283,9 +285,12 @@ player {
 }
 
 .track-image > .track-title{
-  margin-bottom: 30px;
+  margin-bottom: 2px;
   -webkit-line-clamp: 2;
-  max-width: 234px;
+}
+
+.track-image > .track-duration {
+  margin-bottom: 7px;
 }
 
 .track-card-content {

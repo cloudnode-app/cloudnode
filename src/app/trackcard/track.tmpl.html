@@ -4,12 +4,15 @@
        {{track.user.username}}
 
        <span ng-show="isStreamRepost">
-         <ng-md-icon class="artis-icon" icon="repeat" size="24" style="fill:#FFF"></ng-md-icon>
+         <ng-md-icon class="artis-icon" icon="repeat" size="18" style="fill:#FFF"></ng-md-icon>
          {{repostUser.username}}
        </span>
      </span>
      <span class="track-title" title="{{track.title}}">
         {{track.title}}
+     </span>
+     <span class="track-duration" title="{{track.duration | durationToHuman}">
+        {{track.duration | durationToHuman}}
      </span>
    </div>
   <md-card-content class="track-card-content" layout="row" layout-align="start start">

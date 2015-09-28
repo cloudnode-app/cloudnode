@@ -18,10 +18,17 @@
             <tr>
               <td>1</td>
               <td>+</td>
-              <td><3</td>
+              <td>
+                <md-button class="md-icon-button track-icon-btn" aria-label="{{likedConfig[queueLikes[currentTrack.id]].tooltip}}" ng-click="toggleTrackLiked()">
+                  <md-tooltip>
+                    {{likedConfig[queueLikes[currentTrack.id]].tooltip}}
+                  </md-tooltip>
+                  <ng-md-icon class="menu-icon" icon="favorite" size="24" style="fill:{{likedConfig[queueLikes[currentTrack.id]].color}}"></ng-md-icon>
+                </md-button>
+              </td>
               <td>{{currentTrack.title}}</td>
-              <td>{{currentTrack.user.username}}</td>
-              <td>{{currentTrack.duration}}</td>
+              <td>{{currentTrack.artist}}</td>
+              <td>{{currentTrack.duration | durationToHuman}}</td>
             </tr>
           </tbody>
         </table>
@@ -43,10 +50,17 @@
             <tr ng-repeat="(key, queueItem) in queueItems">
               <td>{{key + 1}}</td>
               <td>+</td>
-              <td><3</td>
+              <td>
+                <md-button class="md-icon-button track-icon-btn" aria-label="{{likedConfig[queueLikes[queueItem.id]].tooltip}}" ng-click="toggleTrackLiked(track.id)">
+                  <md-tooltip>
+                    {{likedConfig[queueLikes[queueItem.id]].tooltip}}
+                  </md-tooltip>
+                  <ng-md-icon class="menu-icon" icon="favorite" size="24" style="fill:{{likedConfig[queueLikes[queueItem.id]].color}}"></ng-md-icon>
+                </md-button>
+              </td>
               <td>{{queueItem.title}}</td>
-              <td>{{queueItem.user.username}}</td>
-              <td>{{queueItem.duration}}</td>
+              <td>{{queueItem.artist}}</td>
+              <td>{{queueItem.duration | durationToHuman}}</td>
             </tr>
           </tbody>
         </table>
@@ -73,7 +87,7 @@
               <td><3</td>
               <td>{{historyItem.title}}</td>
               <td>{{historyItem.user.username}}</td>
-              <td>{{historyItem.duration}}</td>
+              <td>{{historyItem.duration | durationToHuman}}</td>
             </tr>
           </tbody>
         </table>
