@@ -9,7 +9,8 @@ angular.module('cloudnode.service.likes', [
 ])
 
 .factory('LikesService', function (ApiService) {
-  var likes = [];
+  var likes         = [];
+  var likesIds      = [];
   var isInitialized = false;
 
   var observerCallbacks = [];
@@ -30,9 +31,11 @@ angular.module('cloudnode.service.likes', [
 
   return {
     init: function initLikesService(){
-      ApiService.getMeLikes().then(function (likesArr){
-        likes = likesArr;
+      var _this = this;
+      ApiService.getMeLikesIds().then(function (likesIdsObj){
+        likesIds = likesIdsObj.collection;
 
+        _this.getAllLikesObjs();
         isInitialized = true;
         notifyObservers();
       }, function(){
@@ -44,10 +47,16 @@ angular.module('cloudnode.service.likes', [
       return likes;
     },
 
+    getAllLikesObjs: function getAllLikesIds(){
+      ApiService.getMeLikes().then(function (likesArr){
+        likes = likesArr;
+      }, function(){
+        console.warn('Unable to retrieve likes');
+      });
+    },
+
     isLiked: function isLiked(trackId) {
-      return likes.filter(function (like){
-        return like.id === trackId;
-      }).length > 0;
+      return likesIds.indexOf(trackId) !== -1;
     },
 
     unlikeTrack: function unlikeTrack(trackId) {
