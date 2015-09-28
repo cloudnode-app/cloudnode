@@ -28,25 +28,25 @@ h1,h2,h3,h4,h5,h6,p,span,a{
  *****************/
 .app-bar {
   background: rgba(0,0,0,0.40);
-  height: 30px;
+  height: 40px;
   width: 100%;
   -webkit-user-select: none;
   -webkit-app-region: drag;
-  display: none;
 }
 
-.md-button.app-bar-button {
-  min-width: 0;
-  -webkit-user-select: none;
-  -webkit-app-region: no-drag;
+.app-header {
+  border-bottom: 1px solid #303030;
+  padding: 8px 0 0 0;
 }
 
-.app-bar-title {
+.app-title {
+  text-align: center;
   font-weight: 400;
-  font-size: 14px;
-  margin: 0;
-  -webkit-user-select: none;
-  cursor: default;
+  font-size: 26px;
+  margin:0;
+}
+.orange {
+  color: #EF6C00 ;
 }
 
 /******************
@@ -65,22 +65,6 @@ md-sidenav.md-sidenav-main {
   width: 255px;
   min-width: 255px;
   max-width: 255px;
-}
-
-.app-header {
-  background: #212121;
-  border-bottom: 1px solid #303030;
-  padding: 15px 0 20px 0;
-}
-
-.app-title {
-  text-align: center;
-  font-weight: 400;
-  font-size: 26px;
-  margin:0;
-}
-.orange {
-  color: #EF6C00 ;
 }
 
 /******************
@@ -285,18 +269,27 @@ player {
   background: rgba(0,0,0,0.87);
   padding: 2px 8px;
   margin-left: 10px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 234px;
 }
 
 .track-image > .track-artist{
   margin-bottom: 2px;
+  -webkit-line-clamp: 1;
 }
 
 .track-image > .track-title{
-  margin-bottom: 10px;
+  margin-bottom: 30px;
+  -webkit-line-clamp: 2;
+  max-width: 234px;
 }
 
-.track-menu {
-  padding: 0;
+.track-card-content {
+  padding-left: 5px;
 }
 
 .md-button.track-icon-btn {

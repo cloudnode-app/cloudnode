@@ -9,30 +9,33 @@
 
     <title>CloudNode</title>
 
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" />
     <% styles.forEach( function ( file ) { %>
         <link rel="stylesheet" type="text/css" href="<%= file %>" /> <%
     }); %>
   </head>
 
-  <body layout="row" data-ng-controller="AppCtrl" data-ng-init="initCloudNode()">
+  <body layout="column" data-ng-controller="AppCtrl" data-ng-init="initCloudNode()">
+    <!-- App bar -->
+    <div class="app-bar" layout="row" layout-align="start center">
+
+    </div>
+
+    <!-- loader view -->
     <div ng-show="!appLoaded" layout="column" layout-align="center center" flex>
       <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
       <h2 class="md-display-1">Loading your account</h2>
     </div>
 
-    <!-- Sidebar include -->
-    <ng-include src="'sidebar/sidebar.tmpl.html'" data-ng-controller="SidebarCtrl" ng-show="appLoaded" class="sidebar-wrapper"></ng-include>
+    <div class="content-container" layout="row" flex>
+      <!-- Sidebar include -->
+      <ng-include src="'sidebar/sidebar.tmpl.html'" data-ng-controller="SidebarCtrl" ng-show="appLoaded" class="sidebar-wrapper"></ng-include>
 
-    <!-- App bar -->
-    <div class="app-bar" layout="row" layout-align="center center">
-      <h1 class="app-bar-title">CloudNode</h1>
-    </div>
-
-    <!-- Main views -->
-    <div class="view-container" layout="column" flex ng-show="appLoaded">
-      <ui-view flex layout="column" class="default-view"></ui-view>
-      <player layout="row"></player>
+      <!-- Main views -->
+      <div class="view-container" layout="column" flex ng-show="appLoaded">
+        <ui-view flex layout="column" class="default-view"></ui-view>
+        <player layout="row"></player>
+      </div>
     </div>
 
 

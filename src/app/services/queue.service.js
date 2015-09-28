@@ -20,6 +20,11 @@ angular.module('cloudnode.service.queue', [
       }
     },
 
+    addNext: function addToQueueNext(track) {
+      var queueObj = createQueueObject(track);
+      QueueStruct.addNext(queueObj);
+    },
+
     addToEnd: function addToQueueEnd(track, fromContext) {
       if (fromContext === context){
         var queueObj = createQueueObject(track);
@@ -86,7 +91,7 @@ angular.module('cloudnode.service.queue', [
         return true;
       }
 
-      if (context === fromContext)
+      if (context === fromContext || context === '')
         return true;
       else
         return false;
@@ -105,6 +110,10 @@ angular.module('cloudnode.service.queue', [
 
     setContext: function setContext(newContext) {
       context = newContext;
+    },
+
+    getContext: function getContext() {
+      return context;
     },
 
     removeFromQueue: function removeFromQueue(track) {

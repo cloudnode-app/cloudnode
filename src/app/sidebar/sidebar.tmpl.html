@@ -2,20 +2,11 @@
     md-component-id="main"
     md-is-locked-open="$mdMedia('gt-sm')"
     data-ng-init="initSidebar()">
-  <div class="app-bar" layout="row" layout-align="start center">
-    <md-button class="app-bar-button" aria-label="close">
-      <ng-md-icon icon="clear" style="fill:#EF6C00" size="18"></ng-md-icon>
-    </md-button>
-    <md-button class="app-bar-button" aria-label="minimize">
-      <ng-md-icon icon="remove" style="fill:#EF6C00" size="18"></ng-md-icon>
-    </md-button>
-    <md-button class="app-bar-button" aria-label="make bigger">
-      <ng-md-icon icon="add" style="fill:#EF6C00" size="18"></ng-md-icon>
-    </md-button>
+  <div class="app-bar" layout="row" layout-align="center center">
+    <header class="app-header">
+      <h2 class="app-title">Cloud<span class="orange">Node</span></h2>
+    </header>
   </div>
-  <header class="app-header">
-    <h2 class="app-title">Cloud<span class="orange">Node</span></h2>
-  </header>
 
   <div class="user-me" md-ink-ripple="#FFE0B2" layout="row" layout-align="start center">
     <img src="{{meUser.avatar_url}}" alt="profile" width="50" height="50"/>

@@ -44,6 +44,20 @@ angular.module('cloudnode.structure.queue', [
     Queue.size++;
   };
 
+  Queue.addNext = function addToQueueNext(track) {
+    var node = new Node(track);
+
+    if (Queue.current !== null) {
+      node.next = Queue.current.next;
+      node.prev = Queue.current;
+
+      if (Queue.current.next !== null)
+        Queue.current.next.prev = node;
+
+      Queue.current.next = node;
+    }
+  };
+
   Queue.addToEnd = function addToQueueEnd(track) {
     var node = new Node(track);
 
