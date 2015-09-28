@@ -50,13 +50,13 @@ angular.module('cloudnode.stream', [
     if (CacheService.isInCache($scope.context)) {
       var cache     = CacheService.getCache($scope.context);
 
-      addToStream(cache.stream);
+      addToStream(cache.stream, true);
       nextHref      = cache.nextHref;
     } else {
       ApiService.getStream().then(function(stream){
         nextHref = stream.next_href;
 
-        addToStream(stream.collection);
+        addToStream(stream.collection, true);
       }, function(){
 
       });
@@ -77,7 +77,7 @@ angular.module('cloudnode.stream', [
       ApiService.getStreamNextPage(nextHref).then(function(nextPage) {
         nextHref = nextPage.next_href;
 
-        addToStream(nextPage.collection);
+        addToStream(nextPage.collection, false);
 
         $scope.isLoading = false;
       }, function(){
@@ -110,9 +110,7 @@ angular.module('cloudnode.stream', [
    * @param {object} item The stream item to add to the queue
    */
   function addToQueue(item) {
-    if (QueueService.canAddToQueue($scope.context)) {
-      QueueService.addToEnd(item, $scope.context);
-    }
+    QueueService.addToEnd(item, $scope.context);
   }
 
   /**
@@ -123,17 +121,24 @@ angular.module('cloudnode.stream', [
    *
    * @param {array} newItems Array of items to add to the stream
    */
-  function addToStream(newItems) {
-    for (var i = 0; i < newItems.length; i++) {
-      if (newItems[i].type !== 'playlist-repost' && newItems[i].type !== 'playlist') {
-        $scope.stream.push(newItems[i]);
+  function addToStream(newItems, isInit) {
+    if (QueueService.canAddToQueue($scope.context)) {
+      var queueContext = QueueService.getContext();
 
-        // Set the uuid on the track object for now
-        newItems[i].track.uuid = newItems[i].uuid;
+      for (var i = 0; i < newItems.length; i++) {
+        if (newItems[i].type !== 'playlist-repost' && newItems[i].type !== 'playlist') {
+          $scope.stream.push(newItems[i]);
 
-        // Add only the track object to the queue array
-        streamTracks.push(newItems[i].track);
-        addToQueue(newItems[i].track);
+          // Set the uuid on the track object for now
+          newItems[i].track.uuid = newItems[i].uuid;
+
+          // Add only the track object to the queue array
+          streamTracks.push(newItems[i].track);
+
+          if ((isInit && queueContext !== $scope.context) || !isInit) {
+            addToQueue(newItems[i].track);
+          }
+        }
       }
     }
   }
