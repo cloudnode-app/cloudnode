@@ -130,6 +130,18 @@ return {
     });
   },
 
+  getMeLikesIds: function getMeLikesIds() {
+    return $http.get(tokenifyURL(END_POINTS.meFavoritesIds)).then(function (response) {
+      if (angular.isObject(response)) {
+        return response.data;
+      } else {
+        return $q.reject({error: 'InvalidResponse'});
+      }
+    }, function () {
+      return $q.reject({error: 'UnexpectedResponse'});
+    });
+  },
+
   likeTrack: function likeTrack(trackId) {
     var url = END_POINTS.meFavoriteTrack.replace('%s', trackId);
     return $http.put(tokenifyURL(url)).then(function () {
@@ -144,6 +156,48 @@ return {
     return $http.delete(tokenifyURL(url)).then(function () {
       return true;
     }, function (){
+      return false;
+    });
+  },
+
+  getMeRepostIds: function getMeRepostIds() {
+    return $http.get(tokenifyURL(END_POINTS.meRepostIds)).then(function (response) {
+      if (angular.isObject(response)) {
+        return response.data;
+      } else {
+        return $q.reject({error: 'InvalidResponse'});
+      }
+    }, function () {
+      return $q.reject({error: 'UnexpectedResponse'});
+    });
+  },
+
+  getAllRepostObjs: function getMeRepostObjs() {
+    return $http.get(tokenifyURL(END_POINTS.meReposts)).then(function (response) {
+      if (angular.isObject(response)) {
+        return response.data;
+      } else {
+        return $q.reject({error: 'InvalidResponse'});
+      }
+    }, function () {
+      return $q.reject({error: 'UnexpectedResponse'});
+    });
+  },
+
+  repostItem: function repostItem(itemId) {
+    var url = END_POINTS.meRepost.replace('%s', itemId);
+    return $http.put(tokenifyURL(url)).then(function () {
+      return true;
+    }, function () {
+      return false;
+    });
+  },
+
+  unRepostItem: function unRepostItem(itemId) {
+    var url = END_POINTS.meRepost.replace('%s', itemId);
+    return $http.delete(tokenifyURL(url)).then(function () {
+      return true;
+    }, function () {
       return false;
     });
   }

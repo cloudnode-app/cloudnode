@@ -19,6 +19,7 @@ angular.module('cloudnode', [
   'cloudnode.queue',
   'cloudnode.service.api',
   'cloudnode.service.likes',
+  'cloudnode.service.repost',
   'cloudnode.directive.player',
   'cloudnode.directive.trackcard'
 ])
@@ -36,7 +37,7 @@ angular.module('cloudnode', [
       .dark();
 })
 
-.controller('AppCtrl', function($scope, ApiService, LikesService) {
+.controller('AppCtrl', function ($scope, ApiService, LikesService, RepostService) {
   $scope.appLoaded  = false;
   $scope.meUser     = null;
   $scope.meLikes    = null;
@@ -46,6 +47,7 @@ angular.module('cloudnode', [
       $scope.meUser    = me;
 
       initLikesService();
+      initRepostService();
 
       $scope.appLoaded = true;
     }, function(err){
@@ -55,6 +57,10 @@ angular.module('cloudnode', [
 
   function initLikesService() {
     LikesService.init();
+  }
+
+  function initRepostService() {
+    RepostService.init();
   }
 
 });
