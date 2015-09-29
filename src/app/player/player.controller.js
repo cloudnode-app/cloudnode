@@ -8,10 +8,11 @@
 angular.module('cloudnode.directive.player', [
   'angularSoundManager',
   'cloudnode.service.api',
-  'cloudnode.service.queue'
+  'cloudnode.service.queue',
+  'cloudnode.service.history'
 ])
 
-.controller('PlayerCtrl', function ($rootScope, $scope, angularPlayer, QueueService, ApiService, $filter) {
+.controller('PlayerCtrl', function ($rootScope, $scope, angularPlayer, QueueService, HistoryService, ApiService, $filter) {
   /**
    * Default track settings
    */
@@ -130,7 +131,13 @@ angular.module('cloudnode.directive.player', [
    * @return {void}
    */
   $scope.previousTrack = function previousTrack() {
-    var track = QueueService.getPrevious();
+    var track = null;
+    if ($scope.currentProgress < 20000) {
+      track = QueueService.getPrevious();
+    } else {
+      track = QueueService.getCurrent();
+    }
+
     resetCurrentTrackPlayIcon();
     if (track !== null)
       playTrack(track);
@@ -144,6 +151,8 @@ angular.module('cloudnode.directive.player', [
    * @return {void}
    */
   $scope.nextTrack = function nextTrack() {
+    addToHistory();
+
     var track = QueueService.getNext();
     resetCurrentTrackPlayIcon();
     if (track !== null)
@@ -155,6 +164,13 @@ angular.module('cloudnode.directive.player', [
   $rootScope.$on('player.play.track', playEventTrack);
   $rootScope.$on('player.pause.track', pauseCurrentTrack);
   $rootScope.$on('track:finished', $scope.nextTrack);
+
+  function addToHistory() {
+    if ($scope.currentProgress > 20000) {
+      HistoryService.addTrack(QueueService.getCurrent());
+    }
+  }
+
   /**
    * Play a track object
    * Set the current track and create

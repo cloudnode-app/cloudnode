@@ -2,6 +2,7 @@
 
 angular.module('cloudnode.queue', [
   'cloudnode.service.queue',
+  'cloudnode.service.history',
   'cloudnode.service.likes'
 ])
 
@@ -13,7 +14,7 @@ angular.module('cloudnode.queue', [
   });
 })
 
-.controller('QueueCtrl', function($scope, $rootScope, QueueService, LikesService){
+.controller('QueueCtrl', function($scope, $rootScope, QueueService, LikesService, HistoryService){
 
   $scope.queueItems   = [];
   $scope.historyItems = [];
@@ -50,7 +51,8 @@ angular.module('cloudnode.queue', [
     QueueService.onCurrentItemChange(currentItemChanged);
     $scope.currentTrack = QueueService.getCurrent();
 
-    $scope.queueItems = QueueService.getQueue();
+    $scope.queueItems   = QueueService.getQueue();
+    $scope.historyItems = HistoryService.getHistory();
 
     if (LikesService.isInitialized()) {
       setIfTracksLiked();
@@ -62,10 +64,11 @@ angular.module('cloudnode.queue', [
   function setIfTracksLiked() {
     $scope.queueLikes[$scope.currentTrack.id] = LikesService.isLiked($scope.currentTrack.id);
 
-    for (var i = $scope.queueItems.length - 1; i >= 0; i--) {
-      $scope.queueLikes[$scope.queueItems[i].id] = LikesService.isLiked($scope.queueItems[i].id);
+
+    var allItems = angular.extend([], $scope.queueItems, $scope.historyItems);
+    for (var i = allItems.length - 1; i >= 0; i--) {
+      $scope.queueLikes[allItems[i].id] = LikesService.isLiked(allItems[i].id);
     }
-    console.log($scope.queueLikes);
   }
 
   $scope.toggleTrackLiked = function toggleTrackLiked(trackId) {

@@ -84,7 +84,14 @@
             <tr ng-repeat="(key, historyItem) in historyItems">
               <td>{{key + 1}}</td>
               <td>+</td>
-              <td><3</td>
+              <td>
+                <md-button class="md-icon-button track-icon-btn" aria-label="{{likedConfig[queueLikes[queueItem.id]].tooltip}}" ng-click="toggleTrackLiked(track.id)">
+                  <md-tooltip>
+                    {{likedConfig[queueLikes[queueItem.id]].tooltip}}
+                  </md-tooltip>
+                  <ng-md-icon class="menu-icon" icon="favorite" size="24" style="fill:{{likedConfig[queueLikes[queueItem.id]].color}}"></ng-md-icon>
+                </md-button>
+              </td>
               <td>{{historyItem.title}}</td>
               <td>{{historyItem.user.username}}</td>
               <td>{{historyItem.duration | durationToHuman}}</td>
