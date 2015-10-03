@@ -19,7 +19,12 @@ angular.module('cloudnode.sidebar', [
    * @return {void}
    */
   $scope.initSidebar = function initSidebar() {
-    getPlaylists();
+
+    if (PlaylistService.isInitialized()) {
+      getPlaylists();
+    } else {
+      PlaylistService.onInitialized(getPlaylists);
+    }
   };
 
   /**
@@ -28,11 +33,7 @@ angular.module('cloudnode.sidebar', [
    * @return {void}
    */
   function getPlaylists() {
-    PlaylistService.getMePlaylists().then(function (playlists) {
-      $scope.playlists = playlists;
-    }, function () {
-
-    });
+    $scope.playlists = PlaylistService.getMePlaylists();
   }
 
 });
