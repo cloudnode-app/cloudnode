@@ -131,6 +131,8 @@ angular.module('cloudnode.directive.player', [
    * @return {void}
    */
   $scope.previousTrack = function previousTrack() {
+    addToHistory();
+
     var track = null;
     if ($scope.currentProgress < 20000) {
       track = QueueService.getPrevious();

@@ -4,11 +4,16 @@ angular.module('cloudnode.service.history', [
 ])
 
 .factory('HistoryService', function ($rootScope) {
-  var history = [];
+  var history         = [];
+  var historyObserver = {};
 
   $rootScope.$on('history.add', function (event, track){
     History.addTrack(track);
   });
+
+  function notifyObserver(track) {
+    historyObserver(track);
+  }
 
   var History = {
     addTrack: function addHistoryItem(track) {
@@ -17,10 +22,17 @@ angular.module('cloudnode.service.history', [
         delete history[index];
       }
       history.push(track);
+      notifyObserver(track);
     },
 
     getHistory: function getHistory() {
       return history;
+    },
+
+    onHistoryUpdate: function onHistoryUpdate(observer) {
+      if (angular.isFunction(observer)) {
+        historyObserver = observer;
+      }
     }
   };
 

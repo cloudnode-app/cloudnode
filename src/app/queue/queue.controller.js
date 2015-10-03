@@ -21,7 +21,7 @@ angular.module('cloudnode.queue', [
 
   $scope.queueLikes = {};
 
-  $scope.currentTrack = {};
+  $scope.currentTrack = false;
 
   // Liked variables
   $scope.likedConfig = {
@@ -53,6 +53,7 @@ angular.module('cloudnode.queue', [
 
     $scope.queueItems   = QueueService.getQueue();
     $scope.historyItems = HistoryService.getHistory();
+    HistoryService.onHistoryUpdate(historyUpdated);
 
     if (LikesService.isInitialized()) {
       setIfTracksLiked();
@@ -91,9 +92,18 @@ angular.module('cloudnode.queue', [
     }
   };
 
+  $scope.playTrack = function playTrack(track) {
+    QueueService.setCurrent(track, false);
+    $rootScope.$broadcast('player.play.track', track);
+  };
+
   function currentItemChanged(item) {
     $scope.currentTrack = item;
     $scope.queueItems.splice(0,1);
+  }
+
+  function historyUpdated(track) {
+    $scope.historyItems.push(track);
   }
 
   $scope.$on('$destroy', function() {

@@ -1,7 +1,7 @@
 <md-tabs md-stretch-tabs="always" flex layout-fill md-border-bottom="" ng-init="initQueue()">
   <md-tab label="Queue">
     <md-content flex layout-fill layout="column" class="md-padding dark-content">
-      <div layout="column">
+      <div layout="column" class="current-track-table">
         <h3 class="table-title">Current Track</h3>
         <table class="queue-table">
           <thead>
@@ -11,11 +11,13 @@
               <th></th>
               <th>Title</th>
               <th>Artist</th>
-              <th>Duration</th>
+              <th>
+                <ng-md-icon class="queue-duration" icon="av_timer" size="24" style="fill:#AAAAAA"></ng-md-icon>
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr ng-show="currentTrack" ng-dblClick="playTrack(currentTrack)">
               <td>1</td>
               <td>+</td>
               <td>
@@ -43,11 +45,13 @@
               <th></th>
               <th>Title</th>
               <th>Artist</th>
-              <th>Duration</th>
+              <th>
+                <ng-md-icon class="queue-duration" icon="av_timer" size="24" style="fill:#AAAAAA"></ng-md-icon>
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="(key, queueItem) in queueItems">
+            <tr ng-repeat="(key, queueItem) in queueItems" ng-dblClick="playTrack(queueItem)">
               <td>{{key + 1}}</td>
               <td>+</td>
               <td>
@@ -77,7 +81,9 @@
               <th></th>
               <th>Title</th>
               <th>Artist</th>
-              <th>Duration</th>
+              <th>
+                <ng-md-icon class="queue-duration" icon="av_timer" size="24" style="fill:#AAAAAA"></ng-md-icon>
+              </th>
             </tr>
           </thead>
           <tbody>
