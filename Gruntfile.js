@@ -29,14 +29,15 @@ var nwExecFull = '';
 if (!isMac)
     nwExecFull = 'nw ../../../dist';
 else
-    nwExecFull = 'open ./cloudnode-app/osx64/cloudnode-app.app';
+    nwExecFull = 'open ./CloudNode/osx64/CloudNode.app';
 
 
 console.log('OS: ' + os);
 
 module.exports = function(grunt) {
 
-  grunt.loadNpmTasks('grunt-node-webkit-builder');
+ grunt.loadNpmTasks('grunt-node-webkit-builder');
+  //grunt.loadNpmTasks('grunt-nw-builder');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-html2js');
@@ -384,6 +385,18 @@ module.exports = function(grunt) {
         },
         src: ['./dist/**/*']
       },
+
+      nwjs: {
+
+            options: {
+                version : nwVer,
+                appName: 'CloudNode',
+                platforms: ['osx64'],
+                cacheDir: './cache',
+                buildDir:'.'
+            },
+            src: ['./dist/**/*']
+        },
 
       shell: {
         install: {
