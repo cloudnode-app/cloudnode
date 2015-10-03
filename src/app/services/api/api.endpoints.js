@@ -27,13 +27,15 @@ angular.module('cloudnode.api.endpoints', [])
 
   users             : 'https://api.soundcloud.com/users.json',
   user              : 'https://api.soundcloud.com/users/%s.json',
-  userTracks        : 'https://api.soundcloud.com/users/%s/tracks.json',
+  userActivity      : 'https://api-v2.soundcloud.com/profile/soundcloud:users:%s?limit=15',
+  userTracks        : 'https://api.soundcloud.com/users/%s/tracks.json?linked_partitioning=1&limit=30',
+  userRepost        : 'https://api.soundcloud.com/e1/%s/track_reposts?linked_partitioning=1&limit=30',
   userComments      : 'https://api.soundcloud.com/users/%s/comments.json',
   userFollowing     : 'https://api.soundcloud.com/users/%s/followings.json',
   userFollowers     : 'https://api.soundcloud.com/users/%s/followers.json',
   userFavorites     : 'https://api.soundcloud.com/users/%s/favorites.json',
   userGroups        : 'https://api.soundcloud.com/users/%s/groups.json',
-  userPlaylists     : 'https://api.soundcloud.com/users/%s/playlists.json',
+  userPlaylists     : 'https://api.soundcloud.com/users/%s/playlists.json?linked_partitioning=1&limit=30',
   userSpotlight     : 'https://api-v2.soundcloud.com/users/%s/spotlight?limit=10&offset=0&linked_partitioning=1',
   userVisual        : 'https://visuals.soundcloud.com/visuals?urn=soundcloud%3Ausers%3A%s',
 
@@ -55,7 +57,7 @@ angular.module('cloudnode.api.endpoints', [])
   groupTracks       : 'https://api.soundcloud.com/groups/%s/tracks.json',
 
   playlists         : 'https://api.soundcloud.com/playlists.json',
-  playlist          : 'https://api.soundcloud.com/playlists/%s.json',
+  playlist          : 'https://api.soundcloud.com/playlists/%s',
 
   exploreCategories : 'https://api-v2.soundcloud.com/explore/categories',
   explore           : 'https://api-v2.soundcloud.com/explore/%s',

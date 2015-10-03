@@ -200,6 +200,113 @@ return {
     }, function () {
       return false;
     });
+  },
+
+  getUser: function getUser(userId) {
+    var url = END_POINTS.user.replace('%s', userId);
+    return $http.get(tokenifyURL(url)).then(function (response) {
+      if (angular.isObject(response)) {
+        return response.data;
+      } else {
+        return $q.reject({error: 'InvalidResponse'});
+      }
+    }, function () {
+      return $q.reject({error: 'UnexpectedResponse'});
+    });
+  },
+
+  getUserVisual: function getUserVisual(userId) {
+    var url = END_POINTS.userVisual.replace('%s', userId);
+    return $http.get(tokenifyURL(url)).then(function (response) {
+      if (angular.isObject(response)) {
+        return response.data;
+      } else {
+        return $q.reject({error: 'InvalidResponse'});
+      }
+    }, function () {
+      return $q.reject({error: 'UnexpectedResponse'});
+    });
+  },
+
+  getUserActivity: function getUserActivity(userId) {
+    var url = END_POINTS.userActivity.replace('%s', userId);
+    return $http.get(tokenifyURL(url)).then(function (response) {
+      if (angular.isObject(response)) {
+        return response.data;
+      } else {
+        return $q.reject({error: 'InvalidResponse'});
+      }
+    }, function () {
+      return $q.reject({error: 'UnexpectedResponse'});
+    });
+  },
+
+  getUserSpotlight: function getUserSpotlight(userId) {
+    var url = END_POINTS.userSpotlight.replace('%s', userId);
+    return $http.get(tokenifyURL(url)).then(function (response) {
+      if (angular.isObject(response)) {
+        return response.data;
+      } else {
+        return $q.reject({error: 'InvalidResponse'});
+      }
+    }, function () {
+      return $q.reject({error: 'UnexpectedResponse'});
+    });
+  },
+
+  getUserTracks: function getUserTracks(userId) {
+    var url = END_POINTS.userTracks.replace('%s', userId);
+    return $http.get(tokenifyURL(url)).then(function (response) {
+      if (angular.isObject(response)) {
+        return response.data;
+      } else {
+        return $q.reject({error: 'InvalidResponse'});
+      }
+    }, function () {
+      return $q.reject({error: 'UnexpectedResponse'});
+    });
+  },
+
+  getUserReposts: function getUserReposts(userId) {
+    var url = END_POINTS.user.replace('%s', userId);
+    return $http.get(tokenifyURL(url)).then(function (response) {
+      if (angular.isObject(response)) {
+        return response.data;
+      } else {
+        return $q.reject({error: 'InvalidResponse'});
+      }
+    }, function () {
+      return $q.reject({error: 'UnexpectedResponse'});
+    });
+  },
+
+  getUserPlaylists: function getUserPlaylists(userId) {
+    var url = END_POINTS.userPlaylists.replace('%s', userId);
+    return $http.get(tokenifyURL(url)).then(function (response) {
+      if (angular.isObject(response)) {
+        return response.data;
+      } else {
+        return $q.reject({error: 'InvalidResponse'});
+      }
+    }, function () {
+      return $q.reject({error: 'UnexpectedResponse'});
+    });
+  },
+
+  addToPlaylist: function addToPlaylist(playlistId, tracks) {
+    var url = END_POINTS.playlist.replace('%s', playlistId);
+    var data = {
+      playlist: tracks
+    };
+    return $http.put(tokenifyURL(url), data).then(function (response) {
+      if (angular.isObject(response)) {
+        return response.data;
+      } else {
+        return $q.reject({error: 'InvalidResponse'});
+      }
+    }, function () {
+      return $q.reject({error: 'UnexpectedResponse'});
+    });
   }
 };
 });
