@@ -19,7 +19,7 @@ Users.prototype.saveUser = function(user) {
 };
 
 Users.prototype.logOut = function() {
-  return Datastore.updateAsync({loggedIn: true}, { $set: { loggedIn: false }}, {});
+  return Datastore.removeAsync({loggedIn: true}, { multi: true});
 };
 
 module.exports = Users;

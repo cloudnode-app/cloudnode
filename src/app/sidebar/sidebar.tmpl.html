@@ -11,6 +11,19 @@
   <div class="user-me" md-ink-ripple="#FFE0B2" layout="row" layout-align="start center" ui-sref="user({userId:8040278})">
     <img src="{{meUser.avatar_url}}" alt="profile" width="50" height="50"/>
     <span class="md-subhead">{{meUser.full_name}}</span>
+    <md-menu>
+      <md-button aria-label="Open user menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+        <ng-md-icon md-menu-origin icon="more_vert" size="24" style="fill:#fff"></ng-md-icon>
+      </md-button>
+      <md-menu-content width="3">
+        <md-menu-item>
+          <md-button ng-click="logOut()">
+            <ng-md-icon md-menu-align-target icon="exit_to_app" size="24" style="fill:#fff"></ng-md-icon>
+            Log out
+          </md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
   </div>
 
   <md-content flex role="navigation" class="menu-content">

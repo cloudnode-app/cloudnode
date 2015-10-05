@@ -15,6 +15,7 @@ function Database() {
 }
 
 Database.prototype.setup = function() {
+  console.log(window.require('nw.gui').App.dataPath);
   var userStore = new Datastore({ filename: path.join(window.require('nw.gui').App.dataPath, 'users.db'), autoload: true });
   this.stores.users  = new UserStore(BPromise.promisifyAll(userStore));
 };

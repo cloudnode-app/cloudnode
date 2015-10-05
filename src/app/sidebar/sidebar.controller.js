@@ -36,4 +36,8 @@ angular.module('cloudnode.sidebar', [
     $scope.playlists = PlaylistService.getMePlaylists();
   }
 
+  $scope.logOut = function logOut() {
+    app.logOut();
+  };
+
 });
