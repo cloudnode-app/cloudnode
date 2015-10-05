@@ -1,11 +1,10 @@
 'use strict';
 
 angular.module('cloudnode.directive.playlist', [
-  'cloudnode.service.playlists',
-  'cloudnode.service.notification'
+  'cloudnode.service.playlists'
 ])
 
-.directive('playlistButton', function (PlaylistService, NotificationService, $mdDialog) { /* jshint ignore:line*/
+.directive('playlistButton', function (PlaylistService, $mdDialog) { /* jshint ignore:line*/
   return {
     restrict: 'E',
     scope: {
@@ -34,9 +33,7 @@ angular.module('cloudnode.directive.playlist', [
       $scope.addToPlaylist = function addToPlaylist(playlistId) {
         PlaylistService.addToPlaylist(playlistId, $scope.track).then(
           function (){
-            NotificationService.notify($scope.track.title + ' added to playlist');
           }, function (){
-            NotificationService.notify('Unable to add to playlist');
         });
         $mdDialog.hide();
       };
