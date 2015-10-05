@@ -28,12 +28,7 @@
       </md-tooltip>
       <ng-md-icon class="menu-icon" icon="queue_music" size="24" style="fill:#FFF"></ng-md-icon>
     </md-button>
-    <md-button class="md-icon-button track-icon-btn" aria-label="Add to a playlist">
-      <md-tooltip>
-        Add to playlist
-      </md-tooltip>
-      <ng-md-icon class="menu-icon" icon="playlist_add" size="24" style="fill:#FFF"></ng-md-icon>
-    </md-button>
+    <playlist-button track="track"></playlist-button>
     <md-button class="md-icon-button track-icon-btn" aria-label="{{repostConfig[isReposted].tooltip}}" ng-click="toggleTrackRepost()">
       <md-tooltip>
         {{repostConfig[isReposted].tooltip}}

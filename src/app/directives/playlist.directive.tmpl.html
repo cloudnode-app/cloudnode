@@ -1,0 +1,35 @@
+<md-dialog aria-label="Add to playlist"  ng-cloak ng-init="init()">
+  <form>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Add To playlist</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="cancel()">
+        <ng-md-icon icon="close" size="24" aria-label="Close dialog"></ng-md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content style="max-width:800px;max-height:710px; ">
+    <div class="playlists" layout="column" flex>
+      <div class="playlist-item" ng-repeat="(key, item) in playlists" layout ="row" flex>
+        <img src="{{item.artwork_url}}" alt="playlist-art">
+        <div class="playlist-info" flex layout="column">
+          <p>{{item.title}}</p>
+          <span class="track-amount">
+            <ng-md-icon size="24" style="fill:#fff" icon="queue_music"></ng-md-icon>
+            {{item.track_count}}
+          </span>
+        </div>
+        <md-button class="md-primary" ng-click="addToPlaylist(item.id)">
+          Add to playlist
+        </md-button>
+      </div>
+    </div>
+  </md-dialog-content>
+  <div class="md-actions" layout="row">
+    <md-button ng-click="cancel()" style="margin-right:20px;" >
+      Cancel
+    </md-button>
+  </div>
+  </form>
+</md-dialog>

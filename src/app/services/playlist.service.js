@@ -26,12 +26,28 @@ angular.module('cloudnode.service.playlists', [
   function init() {
     if (!initBusy) {
       ApiService.getMePlaylists().then(function (playlistsObj) {
-        playlists = playlistsObj;
+        playlists = setArtwork(playlistsObj);
+        initialized = true;
         notifyObservers();
       }, function () {
 
       });
     }
+  }
+
+  function setArtwork(playlists) {
+    for (var i = playlists.length - 1; i >= 0; i--) {
+      console.log(playlists[i]);
+        if (playlists[i].artwork_url === null) {
+        for (var j = 0;  i < playlists[i].track_count; i++){
+          if (playlists[i].tracks[j].artwork_url !== null) {
+            playlists[i].artwork_url = playlists[i].tracks[j].artwork_url;
+            break;
+          }
+        }
+      }
+    }
+    return playlists;
   }
 
 return {
@@ -50,7 +66,7 @@ return {
 
   updatePlaylists: function updatePlaylists() {
     return ApiService.getMePlaylists().then(function (playlists) {
-      playlists = playlists;
+      playlists = setArtwork(playlists);
       return playlists;
     }, function () {
 
@@ -73,10 +89,12 @@ return {
         tracks = playlists[i].tracks;
       }
     }
-
+    console.log(playlistId, tracks);
     return ApiService.addToPlaylist(playlistId, tracks).then(function (){
+      console.log('able');
       return true;
     }, function (){
+      console.log('unable');
       return false;
     });
   }

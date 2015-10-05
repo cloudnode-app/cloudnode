@@ -8,7 +8,8 @@
 angular.module('cloudnode.directive.trackcard', [
   'cloudnode.service.likes',
   'cloudnode.service.repost',
-  'cloudnode.service.queue'
+  'cloudnode.service.queue',
+  'cloudnode.directive.playlist'
 ])
 
 .controller('TrackCtrl', function ($scope, $rootScope, LikesService, RepostService, QueueService) {

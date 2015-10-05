@@ -445,3 +445,25 @@ md-tab-content > div {
 .scroll-container {
   overflow: scroll;
 }
+
+/***********************
+ *  Playlist dialog
+ **********************/
+
+.playlist-item {
+  margin: 5px 0;
+}
+
+.playlist-item img {
+  width: 75px;
+  height: 75px;
+}
+
+.playlist-info{
+  width: 250px;
+  padding: 10px;
+}
+.playlist-info > p{
+  margin: 0;
+  font-weight: 500;
+}
