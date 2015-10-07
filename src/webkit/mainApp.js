@@ -61,6 +61,7 @@ electronApp.on('ready', function() {
 
   var mainApp = new CloudNodeApp();
   mainWindow.mainApp = mainApp;
+
   mainApp.init();
 });
 

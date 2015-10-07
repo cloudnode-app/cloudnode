@@ -16,8 +16,8 @@ function Database() {
 }
 
 Database.prototype.setup = function() {
-  console.log(path.join(electronApp.getAppPath(), 'users.db'));
-  var userStore = new Datastore({ filename: path.join(electronApp.getAppPath(), 'users.db'), autoload: true });
+  var storesLocation = path.join(electronApp.getPath('appData'), 'CloudNode','users.db');
+  var userStore = new Datastore({ filename: storesLocation, autoload: true });
   this.stores.users  = new UserStore(BPromise.promisifyAll(userStore));
 };
 
