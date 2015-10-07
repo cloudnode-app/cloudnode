@@ -16,17 +16,6 @@ if (isLinux32)
 if (isLinux64)
     os = 'linux64';
 
-var electronExec = '';
-if (isMac) {
-  electronExec = 'open ./app/Cloudnode-darwin-x64/Cloudnode.app';
-}
-
-var electronDebug = '';
-if (isMac) {
-  electronDebug = 'electron ./dist/';
-}
-
-
 console.log('OS: ' + os);
 
 module.exports = function(grunt) {
@@ -47,6 +36,17 @@ module.exports = function(grunt) {
 
 
   var userConfig = require('./build.config.js');
+
+  var electronExec = '';
+  if (isMac) {
+    electronExec = 'open ./' + userConfig.cloudnode_package_dir + '/Cloudnode-darwin-x64/Cloudnode.app';
+  }
+
+  var electronDebug = '';
+  if (isMac) {
+    electronDebug = 'electron ./' + userConfig.compile_dir + '/';
+  }
+
 
   var taskConfig = {
 
@@ -382,8 +382,8 @@ module.exports = function(grunt) {
         osxBuild: {
             options: {
                 name: 'Cloudnode',
-                dir: 'dist',
-                out: 'CloudNode_App',
+                dir: '<%= compile_dir %>',
+                out: '<%= cloudnode_package_dir %>',
                 version: '0.33.0',
                 platform: 'darwin',
                 arch: 'x64',

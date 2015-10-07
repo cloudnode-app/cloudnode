@@ -9,7 +9,7 @@ module.exports = {
      */
     build_dir: 'build',
     compile_dir: 'dist',
-    cloudnode_package_dir: 'CloudNode',
+    cloudnode_package_dir: 'CloudNode_App',
 
     /**
      * This is a collection of file patterns that refer to our app code (the
