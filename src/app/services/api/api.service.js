@@ -294,12 +294,9 @@ return {
     });
   },
 
-  addToPlaylist: function addToPlaylist(playlistId, tracks) {
+  addToPlaylist: function addToPlaylist(playlistId, playlistData) {
     var url = END_POINTS.playlist.replace('%s', playlistId);
-    var data = {
-      playlist: tracks
-    };
-    return $http.put(tokenifyURL(url), data).then(function (response) {
+    return $http.put(tokenifyURL(url), playlistData).then(function (response) {
       if (angular.isObject(response)) {
         return response.data;
       } else {

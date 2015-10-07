@@ -82,19 +82,24 @@ return {
   },
 
   addToPlaylist: function addToPlaylist(playlistId, track) {
-    var tracks = {};
+    var tracks = [];
     for (var i = playlists.length - 1; i >= 0; i--) {
       if (playlists[i].id === playlistId) {
-        playlists[i].tracks.push(track);
         tracks = playlists[i].tracks;
+        tracks.push({id: track.id});
       }
     }
-    console.log(playlistId, tracks);
-    return ApiService.addToPlaylist(playlistId, tracks).then(function (){
-      console.log('able');
+    var playlist = {
+      'playlist': {
+        'tracks': tracks
+      }
+    };
+
+    var _this = this;
+    return ApiService.addToPlaylist(playlistId, playlist).then(function (){
+      _this.updatePlaylists();
       return true;
     }, function (){
-      console.log('unable');
       return false;
     });
   }
