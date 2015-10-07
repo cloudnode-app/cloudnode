@@ -16,28 +16,22 @@ if (isLinux32)
 if (isLinux64)
     os = 'linux64';
 
-var nwVer = '0.12.2';
+var electronExec = '';
+if (isMac) {
+  electronExec = 'open ./app/Cloudnode-darwin-x64/Cloudnode.app';
+}
 
-var nwExec = '';
-
-if (!isMac)
-    nwExec = 'cd ./cache/' + nwVer + ' && nw ../../../dist';
-else
-    nwExec = 'cd ./cache/' + nwVer + '/osx64 && open -n -a node-webkit ../../../dist';
-
-var nwExecFull = '';
-if (!isMac)
-    nwExecFull = 'nw ../../../dist';
-else
-    nwExecFull = 'open ./CloudNode/osx64/CloudNode.app';
+var electronDebug = '';
+if (isMac) {
+  electronDebug = 'electron ./dist/';
+}
 
 
 console.log('OS: ' + os);
 
 module.exports = function(grunt) {
 
- grunt.loadNpmTasks('grunt-node-webkit-builder');
-  //grunt.loadNpmTasks('grunt-nw-builder');
+  grunt.loadNpmTasks('grunt-electron');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-html2js');
@@ -91,6 +85,7 @@ module.exports = function(grunt) {
       build: {
         dir: '<%= build_dir %>',
         src: [
+            '<%= vendor_files.special_js %>',
             '<%= vendor_files.js %>',
             '<%= build_dir %>/src/app/**/*.js',
             '<%= html2js.app.dest %>',
@@ -174,7 +169,7 @@ module.exports = function(grunt) {
       build_vendorjs: {
         files: [
             {
-                src: [ '<%= vendor_files.js %>' ],
+                src: [ '<%= vendor_files.js %>', '<%= vendor_files.special_js %>' ],
                 dest: '<%= build_dir %>/',
                 cwd: '.',
                 expand: true
@@ -268,6 +263,17 @@ module.exports = function(grunt) {
             '<%= build_dir %>/src/app/**/*.js'
         ],
         dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.js'
+      },
+
+      compile_jQuery: {
+        options: {
+          banner: '<%= meta.banner %>',
+          separator: ';'
+        },
+        src: [
+            '<%= vendor_files.special_js %>'
+        ],
+        dest: '<%= compile_dir %>/assets/jQuery.js'
       }
     },
 
@@ -372,56 +378,34 @@ module.exports = function(grunt) {
         }
       },
 
-      nodewebkit: {
-        options: {
-            version: nwVer,
-            build_dir: './',
-            mac: isMac,
-            win: isWin,
-            linux32: isLinux32,
-            linux64: isLinux64,
-            keep_nw: false,
-            zip: false
-        },
-        src: ['./dist/**/*']
-      },
-
-      nwjs: {
-
+      electron: {
+        osxBuild: {
             options: {
-                version : nwVer,
-                appName: 'CloudNode',
-                platforms: ['osx64'],
-                cacheDir: './cache',
-                buildDir:'.'
-            },
-            src: ['./dist/**/*']
-        },
+                name: 'Cloudnode',
+                dir: 'dist',
+                out: 'CloudNode_App',
+                version: '0.33.0',
+                platform: 'darwin',
+                arch: 'x64',
+                overwrite: true
+            }
+        }
+      },
 
       shell: {
-        install: {
-          command: function() {
-              return 'bower cache clean && bower install && cd src && npm install';
-          },
-          options: {
-              stdout: true,
-              stderr: true,
-              stdin: true
-          }
-        },
-        run: {
-          command: function() {
-              return nwExec;
-          },
-          options: {
-              stdout: true,
-              stderr: true,
-              stdin: true
-          }
-        },
         run_full: {
           command: function() {
-              return nwExecFull;
+              return electronExec;
+          },
+          options: {
+              stdout: true,
+              stderr: true,
+              stdin: true
+          }
+        },
+        run_debug: {
+          command: function() {
+            return electronDebug;
           },
           options: {
               stdout: true,
@@ -430,90 +414,6 @@ module.exports = function(grunt) {
           }
         }
       },
-
-      /**
-          * And for rapid development, we have a watch set up that checks to see if
-          * any of the files listed below change, and then to execute the listed
-          * tasks when they do. This just saves us from having to type "grunt" into
-          * the command-line every time we want to see what we're working on; we can
-          * instead just leave "grunt watch" running in a background terminal. Set it
-          * and forget it, as Ron Popeil used to tell us.
-          *
-          * But we don't need the same thing to happen for all the files.
-          */
-        delta: {
-            /**
-            * By default, we want the Live Reload to work for all tasks; this is
-            * overridden in some tasks (like this file) where browser resources are
-            * unaffected. It runs by default on port 35729, which your browser
-            * plugin should auto-detect.
-            */
-            options: {
-                livereload: true
-            },
-
-            /**
-            * When our JavaScript source files change, we want to run lint them and
-            * run our unit tests.
-            */
-            jssrc: {
-                files: [
-                    '<%= app_files.js %>'
-                ],
-                tasks: [ 'jshint:src', 'copy:build_appjs' ]
-            },
-
-            /**
-            * When the CSS files change, we need to compile and minify them.
-            */
-            css: {
-                files: [ 'src/css/**/*.css' ],
-                tasks: [ 'copy:build_appcss' ]
-            },
-
-            /**
-              * When our templates change, we only rewrite the template cache.
-              */
-            tpls: {
-                files: [
-                    '<%= app_files.atpl %>'
-                ],
-                tasks: [ 'html2js' ]
-            },
-
-            /**
-            * When assets are changed, copy them. Note that this will *not* copy new
-            * files, so this is probably not very useful.
-            */
-            assets: {
-                files: [
-                    'src/assets/**/*'
-                ],
-                tasks: [ 'copy:build_app_assets' ]
-            },
-
-            /**
-            * When index.html changes, we need to compile it.
-            */
-            html: {
-                files: [ '<%= app_files.html %>' ],
-                tasks: [ 'index:build' ]
-            }
-        },
-
-        /**
-          * With connect we start a webserver on port 8000 which will have the build
-          * directory as it's root
-          */
-        connect: {
-            development: {
-                options: {
-                    port: 8000,
-                    base: 'build',
-                    hostname: '*',
-                }
-            }
-        }
   };
 
   grunt.initConfig( grunt.util._.extend( taskConfig, userConfig ) );
@@ -524,21 +424,23 @@ module.exports = function(grunt) {
       'copy:build_appjs', 'copy:build_appcss', 'copy:build_vendorjs', 'index:build']);
 
   grunt.registerTask( 'compile', [
-        'clean:compile', 'copy:compile_assets', 'copy:compile_package', 'copy:compile_webkit_files', 'ngAnnotate', 'concat:compile_js', 'concat:compile_css', 'cssmin:combine', 'index:compile', 'uglify'
+        'clean:compile', 'copy:compile_assets', 'copy:compile_package', 'copy:compile_webkit_files', 'ngAnnotate', 'concat:compile_js', 'concat:compile_jQuery', 'concat:compile_css', 'cssmin:combine', 'index:compile', 'uglify'
     ]);
 
   grunt.registerTask( 'quick_compile', [
-        'clean:compile', 'copy:compile_assets', 'copy:compile_package', 'copy:compile_webkit_files', 'ngAnnotate', 'concat:compile_js', 'concat:compile_css', 'cssmin:combine', 'index:compile'
+        'clean:compile', 'copy:compile_assets', 'copy:compile_package', 'copy:compile_webkit_files', 'ngAnnotate', 'concat:compile_js', 'concat:compile_jQuery', 'concat:compile_css', 'cssmin:combine', 'index:compile'
     ]);
 
   grunt.renameTask( 'watch', 'delta' );
   grunt.registerTask( 'watch', [ 'build', 'connect:development', 'delta' ] );
 
-  grunt.registerTask('default', ['build', 'quick_compile', 'nodewebkit', 'copy:compile_codec_files', 'shell:run_full']);
-  grunt.registerTask('full_build', ['build', 'quick_compile', 'nodewebkit', 'shell:run']);
+  grunt.registerTask('default', ['build', 'quick_compile', 'electron', 'shell:run_full']);
+  grunt.registerTask('debug', ['build', 'quick_compile', 'shell:run_debug']);
+
+  grunt.registerTask('full_build', ['build', 'compile']);
 
   grunt.registerTask('run', ['default']);
-  grunt.registerTask('install', ['build', 'shell:install', 'nodewebkit']);
+  grunt.registerTask('install', ['build']);
 
 
   /**

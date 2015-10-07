@@ -1,4 +1,5 @@
 'use strict';
+var mainApp = require('remote').getCurrentWindow().mainApp;
 
 /**
 * cloudnode.service.api Module
@@ -9,8 +10,8 @@ angular.module('cloudnode.service.api', [
   'cloudnode.api.endpoints'
 ])
 
-.factory('ApiService', function ($http, $window, $q, END_POINTS) {
-var authToken = $window.authToken;
+.factory('ApiService', function ($http, $q, END_POINTS) {
+var authToken = mainApp.getAuthToken();
 var clientId = '3b1212cb2db7e347cdd1ac67d428ef45';
 
 function addParameter(url, param, value) {

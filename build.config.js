@@ -49,9 +49,11 @@ module.exports = {
       * recommended that you use wildcards.
       */
     vendor_files: {
+        special_js: [
+            'src/lib/jquery/dist/jquery.js'
+        ],
         js: [
             'src/lib/angular/angular.js',
-            'src/lib/jquery/dist/jquery.js',
             'src/lib/angular-resource/angular-resource.js',
             'src/lib/angular-ui-router/release/angular-ui-router.js',
             'src/lib/angular-aria/angular-aria.js',

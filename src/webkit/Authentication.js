@@ -1,5 +1,5 @@
 'use strict';
-var nwGui = window.require('nw.gui');
+var browserWindow = require('browser-window');
 var Utils = require('./Utils.js');
 
 var Database = null;
@@ -15,45 +15,44 @@ function Authentication(database) {
  * If successful, save token and show app
  * @return {void}
  */
-Authentication.prototype.openAuthenticationPopup = function openPopup(app) {
+Authentication.prototype.openAuthenticationPopup = function openPopup(mainApp) {
+  var popUp = new browserWindow({height: 500, width: 500, show: true, });
+  popUp.loadUrl('http://www.cloudnodeapp.com/redirect.html');
 
-  var popUp = nwGui.Window.open('http://www.cloudnodeapp.com/redirect.html', {
-        position: 'center',
-        width: 500,
-        height: 500,
-        focus: true,
-        toolbar: false
-      });
-
-  this.handlePopup(app, popUp);
+  this.handlePopup(mainApp, popUp);
 };
 
-Authentication.prototype.handlePopup = function(app, popUp) {
+Authentication.prototype.handlePopup = function(mainApp, popUp) {
   var authToken = null;
-  popUp.on('loaded', function() {
-    if ((popUp.window.location.hostname + popUp.window.location.pathname) === 'www.cloudnodeapp.com/authcallback.html'){
+  popUp.openDevTools();
+
+  var popUpContent = popUp.webContents;
+  popUpContent.on('did-finish-load', function() {
+    var url = popUpContent.getUrl();
+    var baseUrl = url.split('?')[0];
+    if (baseUrl === 'http://www.cloudnodeapp.com/authcallback.html'){
 
       // Get the authentication token
-      authToken = Utils.getUrlVars(popUp.window.location.href)['#access_token'];
+      authToken = Utils.getUrlVars(url)['#access_token'];
 
       // Set authenticating view
-      popUp.window.location.href = 'file://' + __dirname + '/authViews/authenticating.html';
+      popUp.loadUrl('file://' + __dirname + '/authViews/authenticating.html');
 
       // Save the auth and start app
-      _this.saveAuthAndStart(authToken, popUp, app);
+      _this.saveAuth(mainApp, popUp, authToken);
     }
   });
 };
 
-Authentication.prototype.saveAuthAndStart = function(authToken, popUp, app) {
+Authentication.prototype.saveAuth = function(mainApp, popUp, authToken) {
   var doc = {authToken: authToken, loggedIn: true};
 
   _this.saveAuthentication(doc).then(function (){
     popUp.close();
-    app.startApp(authToken);
+    mainApp.startApp(authToken);
   }, function (err) {
     console.log(err);
-    popUp.window.location.href = 'file://' + __dirname + '/authViews/authenticateFailed.html';
+    popUp.loadUrl('file://' + __dirname + '/authViews/authenticateFailed.html');
   });
 };
 

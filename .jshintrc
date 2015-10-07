@@ -16,7 +16,6 @@
     "window": false,
     "document": false,
     "soundManager": false,
-    "moment": false,
-    "app": false
+    "moment": false
   }
 }

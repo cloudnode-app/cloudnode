@@ -43,7 +43,7 @@ angular.module('cloudnode.directive.player', [
    * Slider variables
    */
   var isDragging      = false;
-  var sliderElement   = angular.element('md-slider.progress-slider');
+  var sliderElement   = angular.element('.progress-slider');
   var trackContainer  = angular.element(angular.element('md-slider')[0].querySelector('.md-track-container'));
 
   /**
