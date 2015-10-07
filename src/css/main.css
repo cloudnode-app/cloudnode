@@ -70,12 +70,14 @@ md-sidenav.md-sidenav-main {
 /******************
  * Profile
  *****************/
+.sidebar-user {
+  border-bottom: 1px solid #303030;
+}
 
 .user-me{
-  padding: 15px 20px;
+  padding: 15px 5px 15px 20px;
   position: relative;
   cursor: pointer;
-  border-bottom: 1px solid #303030;
 }
 
 .user-me > span {
