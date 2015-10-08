@@ -385,7 +385,7 @@ module.exports = function(grunt) {
                 dir: '<%= compile_dir %>',
                 out: '<%= cloudnode_package_dir %>',
                 version: '0.33.0',
-                platform: 'darwin',
+                platform: ['darwin', 'win32'],
                 arch: 'x64',
                 overwrite: true
             }
