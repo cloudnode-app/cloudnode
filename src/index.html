@@ -32,9 +32,7 @@
       <ng-include src="'sidebar/sidebar.tmpl.html'" data-ng-controller="SidebarCtrl" ng-show="appLoaded" class="sidebar-wrapper"></ng-include>
 
       <!-- Main views -->
-      <div class="view-container" layout="column" flex ng-show="appLoaded">
-        <ui-view flex layout="column" class="default-view"></ui-view>
-      </div>
+      <ui-view layout="column" class="view-container" flex ng-show="appLoaded"></ui-view>
     </div>
     <player layout="row"></player>
 
