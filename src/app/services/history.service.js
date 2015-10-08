@@ -12,7 +12,9 @@ angular.module('cloudnode.service.history', [
   });
 
   function notifyObserver(track) {
-    historyObserver(track);
+    if (angular.isFunction(historyObserver)) {
+      historyObserver(track);
+    }
   }
 
   var History = {
