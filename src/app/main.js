@@ -17,13 +17,15 @@ angular.module('cloudnode', [
   'cloudnode.stream',
   'cloudnode.likes',
   'cloudnode.queue',
+  'cloudnode.user',
   'cloudnode.service.api',
   'cloudnode.service.likes',
   'cloudnode.service.repost',
   'cloudnode.directive.player',
   'cloudnode.directive.trackcard',
 
-  'cloudnode.filters.duration'
+  'cloudnode.filters.duration',
+  'cloudnode.constants'
 ])
 
 .config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) {
@@ -39,12 +41,16 @@ angular.module('cloudnode', [
       .dark();
 })
 
-.controller('AppCtrl', function ($scope, ApiService, LikesService, RepostService) {
+.controller('AppCtrl', function ($scope, $state, ApiService, LikesService, RepostService) {
   $scope.appLoaded  = false;
   $scope.meUser     = null;
   $scope.meLikes    = null;
 
   $scope.initCloudNode = function () {
+    ApiService.init(initCloudNodeAsync);
+  };
+
+  function initCloudNodeAsync() {
     ApiService.getMe().then(function(me) {
       $scope.meUser    = me;
 
@@ -52,10 +58,11 @@ angular.module('cloudnode', [
       initRepostService();
 
       $scope.appLoaded = true;
+      $state.transitionTo('stream');
     }, function(err){
       console.warn(err);
     });
-  };
+  }
 
   function initLikesService() {
     LikesService.init();

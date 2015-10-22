@@ -1,5 +1,5 @@
 'use strict';
-var mainApp = require('remote').getCurrentWindow().mainApp;
+var ipc = require('ipc');
 
 /**
 * cloudnode.sidebar Module
@@ -38,7 +38,7 @@ angular.module('cloudnode.sidebar', [
   }
 
   $scope.logOut = function logOut() {
-    mainApp.logOut();
+    ipc.send('user.logout');
   };
 
 });

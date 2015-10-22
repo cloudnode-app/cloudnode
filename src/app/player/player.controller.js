@@ -122,6 +122,7 @@ angular.module('cloudnode.directive.player', [
   function resetCurrentTrackPlayIcon() {
     if (currentTrackId !== 0) {
       $rootScope.$broadcast('track.setPause', currentTrackId);
+      $rootScope.$broadcast('player.finished.track', currentTrackId);
     }
   }
 

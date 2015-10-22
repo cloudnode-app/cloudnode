@@ -262,7 +262,7 @@ player {
 }
 
 .track-image{
-  background-image: url('https://i1.sndcdn.com/artworks-000121103523-m82qsu-t300x300.jpg" alt="image" class="track-artwork');
+  background-image: url('https://i1.sndcdn.com/artworks-000121103523-m82qsu-t300x300.jpg');
   background-size: contain;
   width: 270px;
   height:270px;
@@ -448,6 +448,13 @@ md-tab-content > div {
   overflow: scroll;
 }
 
+md-content.card-content {
+  max-width: 100%;
+  flex-wrap: wrap;
+  overflow-y: visible;
+  overflow-x: hidden;
+}
+
 /***********************
  *  Playlist dialog
  **********************/
@@ -467,5 +474,148 @@ md-tab-content > div {
 }
 .playlist-info > p{
   margin: 0;
+  font-weight: 500;
+}
+
+
+
+
+
+
+/************************
+ * Track card small
+ **********************/
+.background{
+  position: absolute;
+  background-size: cover;
+  z-index: 0; /* Keep the background behind the content */
+  top: 0;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  background-position: center;
+  -webkit-filter: blur(30px);
+}
+
+.background-blur{
+  position: absolute;
+  z-index: 1; /* Keep the background behind the content */
+  top: 0;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  background: rgba(0,0,0,0.4);
+}
+
+.track-card-small {
+  background: none;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  height: 82px;
+  outline: none;
+  transition: height 500ms;
+
+  margin: 3px 8px;
+}
+.track-card-small.selected{
+  height: 236px;
+  transition: height 500ms;
+}
+.track-card-small > md-card-content {
+  z-index: 2;
+}
+/***********************
+ * Track card small
+ **********************/
+.track-card-small .track-meta {
+  font-size: 18px;
+}
+
+.track-card-small .track-meta .small-track-title{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  white-space: nowrap;
+  transition: font-size 200ms;
+}
+
+.track-card-small .track-meta .small-track-repost{
+  white-space: nowrap;
+  transition: font-size 200ms;
+}
+
+.track-card-small .user-name {
+  margin-left: 20px;
+  transition: font-size 200ms;
+  white-space: nowrap;
+}
+
+.track-card-small .small-filler{
+  padding-left: 10px;
+}
+
+.track-card-small .track-tag {
+  font-size: 14px;
+  display: none;
+}
+.track-card-small .track-duration {
+  font-size: 20px;
+}
+
+.track-card-small .filler,
+.track-card-small .track-user-buttons,
+.track-card-small .track-actions,
+.track-card-small .track-image-container,
+.track-card-small .small-track-repost-selected{
+  display: none;
+}
+
+.track-card-small .track-image-container img{
+  height: 0;
+  transition: height 200ms;
+}
+
+.track-card-small .filler > .playlist-tracks {
+  max-height: 120px;
+  display: none;
+}
+
+/***********************
+ * Selected
+ **********************/
+.track-card-small.selected .user-image,
+.track-card-small.selected .small-filler,
+.track-card-small.selected .track-duration,
+.track-card-small.selected .small-track-repost,
+.track-card-small.selected .track-meta .meta-divider {
+  display: none;
+}
+
+.track-card-small.selected .track-image-container img{
+  height: 200px;
+  transition: height 200ms;
+}
+
+.track-card-small.selected .track-tag,
+.track-card-small.selected .filler,
+.track-card-small.selected .track-user-buttons,
+.track-card-small.selected .track-actions,
+.track-card-small.selected .track-image-container,
+.track-card-small.selected .small-track-repost-selected {
+  display: block;
+}
+
+.track-card-small.selected .track-meta {
+  flex-wrap: wrap;
+}
+
+.track-card-small.selected .user-name-container {
+  width: 100%;
+}
+.track-card-small.selected .user-name {
+  margin-left: 0;
   font-weight: 500;
 }

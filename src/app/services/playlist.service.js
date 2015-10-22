@@ -37,7 +37,6 @@ angular.module('cloudnode.service.playlists', [
 
   function setArtwork(playlists) {
     for (var i = playlists.length - 1; i >= 0; i--) {
-      console.log(playlists[i]);
         if (playlists[i].artwork_url === null) {
         for (var j = 0;  i < playlists[i].track_count; i++){
           if (playlists[i].tracks[j].artwork_url !== null) {

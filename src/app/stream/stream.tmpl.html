@@ -4,13 +4,21 @@
   infinite-scroll-immediate-check="false"
   infinite-scroll-container="'.stream-content'">
 
-  <track-card class="track-card" ng-repeat="(key, streamobj) in stream"
+  <track-card-small class="track-card" ng-repeat="(key, streamobj) in stream"
     track="streamobj.track"
     uuid="streamobj.uuid"
     repost-user="streamobj.user"
     type="streamobj.type"
     context="context"
-    >
-  </track-card>
+    flex="90"
+    simple-style="true">
+  </track-card-small>
+  <!--<track-card class="track-card" ng-repeat="(key, streamobj) in stream"
+    track="streamobj.track"
+    uuid="streamobj.uuid"
+    repost-user="streamobj.user"
+    type="streamobj.type"
+    context="context">
+  </track-card>-->
 
 </md-content>

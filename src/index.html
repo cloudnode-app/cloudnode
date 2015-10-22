@@ -29,7 +29,7 @@
 
     <div class="content-container" layout="row" flex>
       <!-- Sidebar include -->
-      <ng-include src="'sidebar/sidebar.tmpl.html'" data-ng-controller="SidebarCtrl" ng-show="appLoaded" class="sidebar-wrapper"></ng-include>
+      <ng-include ng-if="appLoaded" src="'sidebar/sidebar.tmpl.html'" data-ng-controller="SidebarCtrl" ng-show="appLoaded" class="sidebar-wrapper"></ng-include>
 
       <!-- Main views -->
       <ui-view layout="column" class="view-container" flex ng-show="appLoaded"></ui-view>

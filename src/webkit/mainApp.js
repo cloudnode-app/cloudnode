@@ -1,6 +1,7 @@
 'use strict';
 var electronApp   = require('app');
 var browserWindow = require('browser-window');
+var ipc           = require('ipc');
 var mainWindow    = null;
 
 var Database        = require('./storage/database');
@@ -45,10 +46,6 @@ CloudNodeApp.prototype.startApp = function(authToken) {
   mainWindow.show();
 };
 
-CloudNodeApp.prototype.getAuthToken = function() {
-  return this.authToken;
-};
-
 CloudNodeApp.prototype.logOut = function() {
   Authentication.logOut();
   mainWindow.hide();
@@ -58,18 +55,21 @@ CloudNodeApp.prototype.logOut = function() {
 electronApp.on('window-all-closed', function() {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform != 'darwin') {
+  if (process.platform !== 'darwin') {
     electronApp.quit();
   }
 });
 
+ipc.on('apiInit', function(event) {
+  event.sender.send('apiInit', mainWindow.mainApp.authToken);
+});
 
 electronApp.on('ready', function() {
   var windowSize = {
     height: 700,
     width: 1115
   };
-  if (process.platform != 'darwin') {
+  if (process.platform !== 'darwin') {
     windowSize.width = 1145;
   }
 

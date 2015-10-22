@@ -9,50 +9,28 @@ angular.module('cloudnode.directive.trackcard', [
   'cloudnode.service.likes',
   'cloudnode.service.repost',
   'cloudnode.service.queue',
-  'cloudnode.directive.playlist'
+  'cloudnode.directive.playlist',
+  'cloudnode.constants'
 ])
 
-.controller('TrackCtrl', function ($scope, $rootScope, LikesService, RepostService, QueueService) {
+.controller('TrackCtrl', function ($scope, $rootScope, APP, LikesService, RepostService, QueueService) {
+  $scope.APP = APP;
+
+  // For mini track card
+  $scope.isExpanded = false;
+
   // Liked variables
   $scope.isLiked = false;
-  $scope.likedConfig = {
-    true: {
-      color: '#EF6C00',
-      tooltip: 'Unlike track'
-    },
-    false: {
-      color: '#fff',
-      tooltip: 'Like track'
-    }
-  };
-
-  // Liked variables
   $scope.isReposted = false;
-  $scope.repostConfig = {
-    true: {
-      color: '#EF6C00',
-      tooltip: 'Remove repost'
-    },
-    false: {
-      color: '#fff',
-      tooltip: 'Repost track'
-    }
-  };
-
-  // Playing variables
   $scope.isPlaying = false;
-  $scope.fabIcon = {
-    true: 'pause',
-    false: 'play_arrow'
-  };
 
   /**
    * Set the track uuid for use in the queue
    * Check if the LikesService is initialized
    * @return {[type]} [description]
    */
-  $scope.initTrack = function initTrack() {
-    $scope.track.uuid = $scope.uuid;
+  $scope.initItem = function initTrack() {
+    $scope.item.uuid = $scope.uuid;
 
     if (LikesService.isInitialized()) {
       setIfTrackLiked();
@@ -71,18 +49,26 @@ angular.module('cloudnode.directive.trackcard', [
    * Track controls
    */
 
+  function pauseTrack() {
+    $rootScope.$broadcast('player.pause.track', $scope.item.id);
+  }
+
+  function playTrack() {
+    $rootScope.$broadcast('queue.check', {context: $scope.context, item: $scope.item});
+    $rootScope.$broadcast('player.play.track', $scope.item);
+  }
+
   /**
    * Toggle playing the track
    * Broadcast a play or pause which the player
    * will receive and use to play the track
    * @return {void}
    */
-  $scope.togglePlayTrack = function playTrack() {
+  $scope.togglePlayTrack = function togglePlayTrack() {
     if ($scope.isPlaying){
-      $rootScope.$broadcast('player.pause.track', $scope.track.id);
+      pauseTrack();
     } else {
-      $rootScope.$broadcast('queue.check', {context: $scope.context, item: $scope.track});
-      $rootScope.$broadcast('player.play.track', $scope.track);
+      playTrack();
     }
   };
 
@@ -95,8 +81,12 @@ angular.module('cloudnode.directive.trackcard', [
    * @return {void}
    */
   $rootScope.$on('track.setPlaying', function (event, id){
-    if ($scope.track.id === id)
+    if ($scope.item.id === id) {
       $scope.isPlaying = true;
+
+      if($scope.isMini)
+        $scope.isExpanded = true;
+    }
   });
 
   /**
@@ -108,7 +98,7 @@ angular.module('cloudnode.directive.trackcard', [
    * @return {void}
    */
   $rootScope.$on('track.setPause', function (event, id){
-    if ($scope.track.id === id)
+    if ($scope.item.id === id)
       $scope.isPlaying = false;
   });
 
@@ -124,13 +114,13 @@ angular.module('cloudnode.directive.trackcard', [
    */
   $scope.toggleTrackLiked = function toggleTrackLiked() {
     if ($scope.isLiked) {
-      LikesService.unlikeTrack($scope.track.id).then(function(){
+      LikesService.unlikeTrack($scope.item.id).then(function(){
         $scope.isLiked = false;
       }, function(){
 
       });
     } else {
-      LikesService.likeTrack($scope.track).then(function(){
+      LikesService.likeTrack($scope.item).then(function(){
         $scope.isLiked = true;
       }, function(){
 
@@ -144,7 +134,7 @@ angular.module('cloudnode.directive.trackcard', [
    * isLiked variable
    */
   function setIfTrackLiked() {
-    if (LikesService.isLiked($scope.track.id)) {
+    if (LikesService.isLiked($scope.item.id)) {
       $scope.isLiked = true;
     }
   }
@@ -161,13 +151,13 @@ angular.module('cloudnode.directive.trackcard', [
    */
   $scope.toggleTrackRepost = function toggleTrackRepost() {
     if ($scope.isReposted) {
-      RepostService.unRepost($scope.track.id).then(function(){
+      RepostService.unRepost($scope.item.id).then(function(){
         $scope.isReposted = false;
       }, function(){
 
       });
     } else {
-      RepostService.repost($scope.track).then(function(){
+      RepostService.repost($scope.item).then(function(){
         $scope.isReposted = true;
       }, function(){
 
@@ -181,7 +171,7 @@ angular.module('cloudnode.directive.trackcard', [
    * isReposted variable
    */
   function setIfTrackReposted() {
-    if (RepostService.isReposted($scope.track.id)) {
+    if (RepostService.isReposted($scope.item.id)) {
       $scope.isReposted = true;
     }
   }
@@ -190,7 +180,24 @@ angular.module('cloudnode.directive.trackcard', [
    * Add the track as next item in the queue
    */
   $scope.addToQueue = function addToQueue() {
-    QueueService.addNext($scope.track);
+    QueueService.addNext($scope.item);
   };
+
+  $scope.toggleExpand = function toggleExpanded() {
+    if ($scope.isExpanded && $scope.isPlaying) {
+      pauseTrack();
+    }
+    if (!$scope.isExpanded) {
+      playTrack();
+    }
+    if ($scope.isExpanded && !$scope.isPlaying) {
+      $scope.isExpanded = false;
+    }
+  };
+
+  $rootScope.$on('player.finished.track', function(ev, trackId) {
+    if ($scope.item.id === trackId)
+      $scope.isExpanded = false;
+  });
 
 });

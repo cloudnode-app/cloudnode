@@ -31,7 +31,6 @@ angular.module('cloudnode.service.repost', [
   return {
     init: function initRepostService(){
       ApiService.getMeRepostIds().then(function (repostIdsObj){
-        console.log(repostIdsObj);
         repostIds = repostIdsObj.collection;
 
         isInitialized = true;

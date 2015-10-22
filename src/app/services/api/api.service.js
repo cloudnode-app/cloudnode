@@ -1,5 +1,5 @@
 'use strict';
-var mainApp = require('remote').getCurrentWindow().mainApp;
+var ipc = require('ipc');
 
 /**
 * cloudnode.service.api Module
@@ -11,8 +11,11 @@ angular.module('cloudnode.service.api', [
 ])
 
 .factory('ApiService', function ($http, $q, END_POINTS) {
-var authToken = mainApp.getAuthToken();
-var clientId = '3b1212cb2db7e347cdd1ac67d428ef45';
+//init params
+var isInitialized      = false;
+
+var authToken = null;
+var clientId  = '3b1212cb2db7e347cdd1ac67d428ef45';
 
 function addParameter(url, param, value) {
     // Using a positive lookahead (?=\=) to find the
@@ -57,7 +60,24 @@ function tokenifyURL(endpoint) {
   return addParameter(endpoint, 'oauth_token', authToken);
 }
 
+function initialize(initObserver) {
+  ipc.send('apiInit', 'getAuthToken');
+
+  ipc.on('apiInit', function(token){
+    authToken     = token;
+    isInitialized = true;
+    initObserver();
+  });
+}
+
 return {
+  init: function initApiService(initObserver) {
+    if (isInitialized) {
+      initObserver();
+    } else {
+      initialize(initObserver);
+    }
+  },
 
   getStreamableUrl: function getStreamableUrl(url) {
     return addParameter(url, 'client_id', clientId);
@@ -68,6 +88,7 @@ return {
    * @return {object} The user or an error
    */
   getMe: function getMe() {
+    console.log(authToken);
     return $http.get(tokenifyURL(END_POINTS.me)).then(function (response){
       if (angular.isObject(response)) {
         return response.data;
@@ -96,6 +117,7 @@ return {
   },
 
   getStream: function getStream() {
+    console.log(authToken);
     return $http.get(tokenifyURL(END_POINTS.meStream)).then(function (response) {
       if (angular.isObject(response)) {
         return response.data;

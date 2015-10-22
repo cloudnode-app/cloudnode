@@ -1,0 +1,16 @@
+<md-content class="playlist-tracks" ng-show="isPlaylist">
+            <md-list>
+              <md-list-item ng-repeat="(key, listTrack) in item.tracks" layout="row" ng-click="playTrack(listTrack.id)">
+                <span class="playlist-track-num">
+                  {{key + 1}}
+                </span>
+                <span class="playlist-track-title">
+                  {{listTrack.title}}
+                </span>
+                <div class="filler"></div>
+                <span class="playlist-track-duration">
+                  {{listTrack.duration | durationToHuman}}
+                </span>
+              </md-list-item>
+            </md-list>
+          </md-content>

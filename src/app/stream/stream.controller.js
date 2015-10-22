@@ -17,7 +17,7 @@ angular.module('cloudnode.stream', [
 
 .config(function ($stateProvider) {
   $stateProvider.state('stream', {
-    url: '/',
+    url: '/stream',
       templateUrl: 'stream/stream.tmpl.html',
       controller: 'StreamCtrl'
   });
