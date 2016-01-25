@@ -45,7 +45,7 @@ angular.module('cloudnode.likes', [
       nextHref = cache.nextHref;
     } else {
       if (LikesService.isInitialized()) {
-        QueueService.onContextChange($scope.context, contextChangedListener);
+        QueueService.onContextChange(contextChangedListener);
 
         addToLikes(LikesService.getAllLikes());
         $scope.isLoading = false;

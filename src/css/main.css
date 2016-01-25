@@ -545,6 +545,7 @@ md-content.card-content {
 .track-card-small .track-meta .small-track-repost{
   white-space: nowrap;
   transition: font-size 200ms;
+  color: rgba(255,255,255,0.5);
 }
 
 .track-card-small .user-name {
@@ -562,6 +563,7 @@ md-content.card-content {
   display: none;
 }
 .track-card-small .track-duration {
+  margin-left: 10px;
   font-size: 20px;
 }
 

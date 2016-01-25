@@ -187,7 +187,7 @@ angular.module('cloudnode.directive.player', [
             id: trackId,
             artist: track.artist,
             title: track.title,
-            url: ApiService.getStreamableUrl(track.stream_url)
+            url: ApiService.getStreamableUrl(track)
         });
 
     currentTrackId = track.id;

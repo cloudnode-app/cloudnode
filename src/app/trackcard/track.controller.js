@@ -16,9 +16,6 @@ angular.module('cloudnode.directive.trackcard', [
 .controller('TrackCtrl', function ($scope, $rootScope, APP, LikesService, RepostService, QueueService) {
   $scope.APP = APP;
 
-  // For mini track card
-  $scope.isExpanded = false;
-
   // Liked variables
   $scope.isLiked = false;
   $scope.isReposted = false;

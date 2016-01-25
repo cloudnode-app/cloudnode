@@ -79,7 +79,18 @@ return {
     }
   },
 
-  getStreamableUrl: function getStreamableUrl(url) {
+  getStreamableUrl: function getStreamableUrl(track) {
+    var url = '';
+    if (track.hasOwnProperty('uri')) {
+        url = track.uri;
+    } else {
+        url = track.stream_url;
+    }
+
+    var suffix = '/stream';
+    if (url.indexOf(suffix, url.length - suffix.length) === -1) {
+        url = url + '/stream';
+    }
     return addParameter(url, 'client_id', clientId);
   },
 
@@ -88,7 +99,6 @@ return {
    * @return {object} The user or an error
    */
   getMe: function getMe() {
-    console.log(authToken);
     return $http.get(tokenifyURL(END_POINTS.me)).then(function (response){
       if (angular.isObject(response)) {
         return response.data;
@@ -117,7 +127,6 @@ return {
   },
 
   getStream: function getStream() {
-    console.log(authToken);
     return $http.get(tokenifyURL(END_POINTS.meStream)).then(function (response) {
       if (angular.isObject(response)) {
         return response.data;

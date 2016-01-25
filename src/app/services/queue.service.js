@@ -7,9 +7,9 @@ angular.module('cloudnode.service.queue', [
 .factory('QueueService', function (QueueStruct, $rootScope) {
 
   var context = '';
-  var contextObservers = [];
   var queueInit = true;
   var currentItemObserver = null;
+  var contextObserver = null;
 
   var QueueService = {
 
@@ -97,15 +97,12 @@ angular.module('cloudnode.service.queue', [
         return false;
     },
 
-    onContextChange: function onContextChange(context, callback){
-      contextObservers.push({context: context, callback: callback});
+    onContextChange: function onContextChange(callback){
+      contextObserver = callback;
     },
 
-    removeOnContextChange: function removeOnContextChange(context) {
-      for (var i = contextObservers.length - 1; i >= 0; i--) {
-        if (contextObservers[i].context === context)
-          delete contextObservers[i];
-      }
+    removeOnContextChange: function removeOnContextChange() {
+      contextObserver = null;
     },
 
     setContext: function setContext(newContext) {
@@ -132,13 +129,8 @@ angular.module('cloudnode.service.queue', [
 
   function callContextObserver(context, track){
     var queue = [];
-    for (var i = contextObservers.length - 1; i >= 0; i--) {
 
-      if (contextObservers[i].context === context){
-        queue = contextObservers[i].callback();
-        break;
-      }
-    }
+    queue = contextObserver();
 
     QueueService.emptyQueue();
     QueueService.setContext(context);
@@ -161,7 +153,7 @@ angular.module('cloudnode.service.queue', [
       artistId: item.user.id,
       id: item.id,
       uuid: item.uuid,
-      stream_url: item.stream_url,
+      stream_url: item.uri + '/stream',
       duration: item.duration
     };
     return queueObject;

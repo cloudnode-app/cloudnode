@@ -30,6 +30,7 @@ angular.module('cloudnode.stream', [
    */
   var nextHref = '';
   var streamTracks = [];
+  var trackIds = [];
 
   /**
    * Scope variables
@@ -45,18 +46,20 @@ angular.module('cloudnode.stream', [
    * @return {void}
    */
   $scope.initStream = function initStream(){
-    QueueService.onContextChange($scope.context, contextChangedListener);
+    QueueService.onContextChange(contextChangedListener);
 
     if (CacheService.isInCache($scope.context)) {
       var cache     = CacheService.getCache($scope.context);
 
       addToStream(cache.stream, true);
       nextHref      = cache.nextHref;
+      expandCurrentlyPlaying();
     } else {
       ApiService.getStream().then(function(stream){
         nextHref = stream.next_href;
 
         addToStream(stream.collection, true);
+        expandCurrentlyPlaying();
       }, function(){
 
       });
@@ -94,6 +97,18 @@ angular.module('cloudnode.stream', [
     });
   });
 
+  function expandCurrentlyPlaying() {
+    var currentTrack = QueueService.getCurrent();
+    if (currentTrack !== null) {
+       for (var i = 0; i < $scope.stream.length; i++) {
+          if ($scope.stream[i].uuid === currentTrack.uuid) {
+              console.log('Found currently playing');
+             $scope.stream[i].isExpanded = true;
+          }
+       }
+    }
+  }
+
   /**
    * Gets called when the context of the QueueService
    * changes to this controllers context and will
@@ -114,6 +129,24 @@ angular.module('cloudnode.stream', [
   }
 
   /**
+   * Check if the track is already in the stream
+   * if so, prevent it from showing. We don't want
+   * the same track to be present so close to the other
+   * @param {int} id The id of the track to check
+   */
+  function trackInStream(id) {
+    if (trackIds.length >= 25) {
+      trackIds.shift();
+    }
+
+    if (trackIds.indexOf(id) === -1) {
+        trackIds.push(id);
+        return false;
+    }
+    return true;
+  }
+
+  /**
    * Add stream items to the stream array
    *
    * At the moment the application doesn't
@@ -126,7 +159,7 @@ angular.module('cloudnode.stream', [
       var queueContext = QueueService.getContext();
 
       for (var i = 0; i < newItems.length; i++) {
-        if (newItems[i].type !== 'playlist-repost' && newItems[i].type !== 'playlist') {
+        if (newItems[i].type !== 'playlist-repost' && newItems[i].type !== 'playlist' && !trackInStream(newItems[i].track.id)) {
           $scope.stream.push(newItems[i]);
 
           // Set the uuid on the track object for now
