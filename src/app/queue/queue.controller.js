@@ -8,7 +8,7 @@ angular.module('cloudnode.queue', [
 
 .config(function ($stateProvider) {
   $stateProvider.state('queue', {
-    url: '/',
+    url: '/queue',
       templateUrl: 'queue/queue.tmpl.html',
       controller: 'QueueCtrl'
   });

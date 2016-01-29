@@ -1,6 +1,7 @@
 'use strict';
 
 // Node libraries
+var electronApp = require('app');
 var BPromise  = require('bluebird');
 var Datastore = require('nedb');
 var path      = require('path');
@@ -15,8 +16,8 @@ function Database() {
 }
 
 Database.prototype.setup = function() {
-  console.log(window.require('nw.gui').App.dataPath);
-  var userStore = new Datastore({ filename: path.join(window.require('nw.gui').App.dataPath, 'users.db'), autoload: true });
+  var storesLocation = path.join(electronApp.getPath('appData'), 'CloudNode','users.db');
+  var userStore = new Datastore({ filename: storesLocation, autoload: true });
   this.stores.users  = new UserStore(BPromise.promisifyAll(userStore));
 };
 

@@ -1,0 +1,75 @@
+<div class="scroll-container">
+  <div class="user-header" layout="row" style="background-image:url({{userVisual}})" ng-init="init()">
+    <img class="user-image" alt="user image" src="{{user.avatar_url}}">
+    <div class="user-profile-info">
+      <h1 class="user-username">
+        {{user.username}}
+      </h1>
+      <br>
+      <h4 class="user-location">
+        {{user.country}}
+      </h4>
+    </div>
+  </div>
+  <div class="user-info-container" layout="row">
+    <md-card flex>
+    </md-card>
+    <md-card flex="33">
+    </md-card>
+  </div>
+  <div class="user-content">
+    <md-tabs md-stretch-tabs="always" class="user-content-tabs"  md-dynamic-height>
+      <md-tab label="All" md-on-select="onTabSelect('all')">
+        <md-content class="dark-content card-content" layout="column" flex layout-fill>
+          <div class="user-spotlight" flex layout="row" layout-align="space-around start">
+            <h2 class="user-activity-headline">Spotlight</h2>
+            <track-card-small class="track-card" ng-repeat="(key, item) in spotlightItems.collection"
+              track="item"
+              uuid="item.uuid"
+              context="context"
+              flex="90"
+              simple-style="true">
+            </track-card-small>
+          </div>
+          <div class="user-stream" flex layout="row" layout-align="space-around start">
+            <h2 class="user-activity-headline">Stream</h2>
+            <track-card-small class="track-card" ng-repeat="(key, item) in allItems.collection"
+              track="item.track"
+              uuid="item.uuid"
+              repostUser="item.user"
+              type="item.type"
+              context="context"
+              flex="90"
+              simple-style="true">
+            </track-card-small>
+          </div>
+        </md-content>
+      </md-tab>
+      <md-tab label="Tracks" md-on-select="onTabSelect('tracks')">
+        <md-content class="dark-content card-content" layout="row" layout-align="space-around start" flex layout-fill>
+          <track-card-small class="track-card" ng-repeat="(key, item) in trackItems.collection"
+            track="item"
+            uuid="item.uuid"
+            context="context"
+            flex="90"
+              simple-style="true">
+          </track-card-small>
+        </md-content>
+      </md-tab>
+      <md-tab label="Reposts" md-on-select="onTabSelect('reposts')">
+        <md-content class="dark-content card-content" layout="row" layout-align="space-around start" flex layout-fill>
+          <track-card-small class="track-card" ng-repeat="(key, item) in repostItems.collection"
+            track="item"
+            uuid="item.uuid"
+            context="context"
+            flex="90"
+            simple-style="true">
+          </track-card-small>
+        </md-content>
+      </md-tab>
+      <md-tab label="Playlists">
+
+      </md-tab>
+    </md-tabs>
+  </div>
+</div>

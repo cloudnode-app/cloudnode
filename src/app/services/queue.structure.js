@@ -78,7 +78,7 @@ angular.module('cloudnode.structure.queue', [
   };
 
   Queue.getCurrent = function getCurrent() {
-    return Queue.current.data;
+    return (Queue.current !== null) ? Queue.current.data : null;
   };
 
   Queue.setCurrent = function setCurrent(item) {

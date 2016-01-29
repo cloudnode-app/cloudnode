@@ -1,0 +1,64 @@
+<md-card class="track-card-small" ng-class="isExpanded ?'selected' : ''" flex ng-click="toggleExpand()" data-ng-init="initTrack()">
+  <div class="background" ng-style="!isSimple ? 'background-image:url({{item.artwork_url}})' : ''"></div>
+  <div class="background-blur"></div>
+  <md-card-content>
+    <div class="track-container" layout="row" flex>
+      <div class="track-info" layout="column" flex>
+        <div class="track-meta" layout="row" layout-align="start center">
+          <img class="user-image" src="{{item.user.avatar_url}}"/>
+          <div class="user-name-container" layout="row">
+            <span class="user-name">
+              {{item.user.username}}
+            </span>
+            <span class="small-track-repost-selected" ng-show="isStreamRepost">
+              <ng-md-icon class="artis-icon" icon="repeat" size="18" style="fill:#FFF"></ng-md-icon>
+              {{repostUser.username}}
+            </span>
+          </div>
+          <ng-md-icon class="meta-divider" icon="remove" style="fill:#FFF" size="28">
+          </ng-md-icon>
+          <span class="small-track-title" tooltip="{{item.title}}">
+            {{item.title}}
+          </span>
+          <div class="small-filler" flex></div>
+          <span class="small-track-repost align-right" ng-show="isStreamRepost">
+            <ng-md-icon class="artis-icon" icon="repeat" size="18" style="fill:#FFF"></ng-md-icon>
+            {{repostUser.username}}
+          </span>
+          <span class="track-duration">
+            {{item.duration | durationToHuman}}
+          </span>
+        </div>
+        <div class="filler" flex>
+        </div>
+        <div class="track-actions" layout="row" layout-align="start start">
+            <md-button class="md-icon-button track-icon-btn" aria-label="Play/Pause track" ng-click="togglePlayTrack();$event.stopPropagation();">
+              <ng-md-icon class="menu-icon" icon="{{APP.PLAY_ICON_SMALL[isPlaying]}}" size="24" style="fill:#FFF"></ng-md-icon>
+            </md-button>
+            <md-button class="md-icon-button track-icon-btn" aria-label="{{APP.LIKES_STRING[isLiked]}}" ng-click="toggleTrackLiked();$event.stopPropagation();">
+              <md-tooltip>
+                {{APP.LIKES_STRING[isLiked]}}
+              </md-tooltip>
+              <ng-md-icon class="menu-icon" icon="favorite" size="24" style="fill:{{APP.COLORS[isLiked]}}"></ng-md-icon>
+            </md-button>
+            <md-button class="md-icon-button track-icon-btn" aria-label="Add to queue" ng-click="addToQueue();$event.stopPropagation();">
+              <md-tooltip>
+                {{APP.MISC_STRINGS.queue}}
+              </md-tooltip>
+              <ng-md-icon class="menu-icon" icon="queue_music" size="24" style="fill:#FFF"></ng-md-icon>
+            </md-button>
+            <playlist-button track="track"></playlist-button>
+            <md-button class="md-icon-button track-icon-btn" aria-label="{{APP.REPOST_STRING[isReposted]}}" ng-click="toggleTrackRepost();$event.stopPropagation();">
+              <md-tooltip>
+                {{APP.REPOST_STRING[isReposted]}}
+              </md-tooltip>
+              <ng-md-icon class="menu-icon" icon="repeat" size="24" style="fill:{{APP.COLORS[isReposted]}}"></ng-md-icon>
+            </md-button>
+        </div>
+      </div>
+      <div class="track-image-container">
+        <img src="{{item.artwork_url}}" width="200" height="200"/>
+      </div>
+    </div>
+  </md-card-content>
+</md-card>

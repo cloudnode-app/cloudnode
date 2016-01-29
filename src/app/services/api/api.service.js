@@ -1,4 +1,5 @@
 'use strict';
+var ipc = require('ipc');
 
 /**
 * cloudnode.service.api Module
@@ -9,9 +10,12 @@ angular.module('cloudnode.service.api', [
   'cloudnode.api.endpoints'
 ])
 
-.factory('ApiService', function ($http, $window, $q, END_POINTS) {
-var authToken = $window.authToken;
-var clientId = '3b1212cb2db7e347cdd1ac67d428ef45';
+.factory('ApiService', function ($http, $q, END_POINTS) {
+//init params
+var isInitialized      = false;
+
+var authToken = null;
+var clientId  = '3b1212cb2db7e347cdd1ac67d428ef45';
 
 function addParameter(url, param, value) {
     // Using a positive lookahead (?=\=) to find the
@@ -56,9 +60,37 @@ function tokenifyURL(endpoint) {
   return addParameter(endpoint, 'oauth_token', authToken);
 }
 
-return {
+function initialize(initObserver) {
+  ipc.send('apiInit', 'getAuthToken');
 
-  getStreamableUrl: function getStreamableUrl(url) {
+  ipc.on('apiInit', function(token){
+    authToken     = token;
+    isInitialized = true;
+    initObserver();
+  });
+}
+
+return {
+  init: function initApiService(initObserver) {
+    if (isInitialized) {
+      initObserver();
+    } else {
+      initialize(initObserver);
+    }
+  },
+
+  getStreamableUrl: function getStreamableUrl(track) {
+    var url = '';
+    if (track.hasOwnProperty('uri')) {
+        url = track.uri;
+    } else {
+        url = track.stream_url;
+    }
+
+    var suffix = '/stream';
+    if (url.indexOf(suffix, url.length - suffix.length) === -1) {
+        url = url + '/stream';
+    }
     return addParameter(url, 'client_id', clientId);
   },
 
@@ -293,12 +325,9 @@ return {
     });
   },
 
-  addToPlaylist: function addToPlaylist(playlistId, tracks) {
+  addToPlaylist: function addToPlaylist(playlistId, playlistData) {
     var url = END_POINTS.playlist.replace('%s', playlistId);
-    var data = {
-      playlist: tracks
-    };
-    return $http.put(tokenifyURL(url), data).then(function (response) {
+    return $http.put(tokenifyURL(url), playlistData).then(function (response) {
       if (angular.isObject(response)) {
         return response.data;
       } else {

@@ -1,4 +1,5 @@
 'use strict';
+var ipc = require('ipc');
 
 /**
 * cloudnode.sidebar Module
@@ -37,7 +38,7 @@ angular.module('cloudnode.sidebar', [
   }
 
   $scope.logOut = function logOut() {
-    app.logOut();
+    ipc.send('user.logout');
   };
 
 });

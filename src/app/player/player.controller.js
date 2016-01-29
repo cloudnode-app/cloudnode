@@ -43,7 +43,7 @@ angular.module('cloudnode.directive.player', [
    * Slider variables
    */
   var isDragging      = false;
-  var sliderElement   = angular.element('md-slider.progress-slider');
+  var sliderElement   = angular.element('.progress-slider');
   var trackContainer  = angular.element(angular.element('md-slider')[0].querySelector('.md-track-container'));
 
   /**
@@ -122,6 +122,7 @@ angular.module('cloudnode.directive.player', [
   function resetCurrentTrackPlayIcon() {
     if (currentTrackId !== 0) {
       $rootScope.$broadcast('track.setPause', currentTrackId);
+      $rootScope.$broadcast('player.finished.track', currentTrackId);
     }
   }
 
@@ -186,7 +187,7 @@ angular.module('cloudnode.directive.player', [
             id: trackId,
             artist: track.artist,
             title: track.title,
-            url: ApiService.getStreamableUrl(track.stream_url)
+            url: ApiService.getStreamableUrl(track)
         });
 
     currentTrackId = track.id;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="cloudnode">
   <head>
     <meta charset="utf-8">
     <meta name="theme-color" content="#3F51B5">
@@ -29,29 +29,22 @@
 
     <div class="content-container" layout="row" flex>
       <!-- Sidebar include -->
-      <ng-include src="'sidebar/sidebar.tmpl.html'" data-ng-controller="SidebarCtrl" ng-show="appLoaded" class="sidebar-wrapper"></ng-include>
+      <ng-include ng-if="appLoaded" src="'sidebar/sidebar.tmpl.html'" data-ng-controller="SidebarCtrl" ng-show="appLoaded" class="sidebar-wrapper"></ng-include>
 
       <!-- Main views -->
-      <div class="view-container" layout="column" flex ng-show="appLoaded">
-        <ui-view flex layout="column" class="default-view"></ui-view>
-      </div>
+      <ui-view layout="column" class="view-container" flex ng-show="appLoaded"></ui-view>
     </div>
     <player layout="row"></player>
 
-
-
-    <!-- jquery -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <!-- Load jQuery -->
+    <script type="text/javascript">
+      'use strict';
+      window.$ = window.jQuery = require('./assets/jQuery.js');
+    </script>
 
     <!-- Grunt will handle this part -->
     <% scripts.forEach( function ( file ) { %>
     <script type="text/javascript" src="<%= file %>"></script>
     <% }); %>
-
-    <script type="text/javascript">
-      'use strict';
-      var app = require('./webkit/app');
-      app.init();
-    </script>
   </body>
 </html>

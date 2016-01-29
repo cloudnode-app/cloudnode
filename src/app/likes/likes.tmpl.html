@@ -4,12 +4,14 @@
   infinite-scroll-immediate-check="false"
   infinite-scroll-container="'.likes-content'">
 
-  <track-card class="track-card" ng-repeat="(key, likeobj) in likes"
+  <track-card-small class="track-card" ng-repeat="(key, likeobj) in likes"
     track="likeobj"
     uuid="likeobj.id"
     user="likeobj.user"
     type=""
-    context="context">
-  </track-card>
+    context="context"
+    flex="90"
+    simple-style="true">
+  </track-card-small>
 
 </md-content>

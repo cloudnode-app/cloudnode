@@ -4,15 +4,7 @@
   "description": "Soundcloud desktop app",
   "author": "Alex Nagelkerke",
   "license": "Apache-2.0",
-  "main": "index.html",
-  "window": {
-    "show": false,
-    "toolbar": false,
-    "width": 1115,
-    "height": 700,
-    "min_width": 1115,
-    "min_height": 700
-  },
+  "main": "./webkit/mainApp.js",
   "dependencies": {
     "bluebird": "^2.9.30",
     "nedb": "^1.1.2",
